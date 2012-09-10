@@ -1,4 +1,4 @@
-picketbox-deltaspike
+picketbox-cdi
 ====================
 
-PicketBox Deltaspike provides integration with Apache DeltaSpike
+PicketBox CDI provides integration with PicketLink CDI
