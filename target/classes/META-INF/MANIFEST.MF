@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Built-By: pedroigor
+Build-Jdk: 1.6.0_32
+Specification-Title: PicketBox CDI Integration
+Specification-Version: 5.0.0-SNAPSHOT
+Specification-Vendor: JBoss Inc.
+Implementation-Title: PicketBox CDI Integration
+Implementation-Version: 5.0.0-SNAPSHOT
+Implementation-Vendor-Id: org.picketbox
+Implementation-Vendor: JBoss Inc.
+Created-By: Maven Integration for Eclipse
+Implementation-URL: http://jboss.org/picketbox/
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="5.5">
+<file name="/pedroigor/java/workspace-new/picketlink/picketbox-deltaspike/src/main/java/org/picketbox/deltaspike/event/CDIAuthenticationEventManager.java">
+</file>
+<file name="/pedroigor/java/workspace-new/picketlink/picketbox-deltaspike/src/main/java/org/picketbox/deltaspike/PicketBoxExtension.java">
+</file>
+<file name="/pedroigor/java/workspace-new/picketlink/picketbox-deltaspike/src/main/java/org/picketbox/deltaspike/PicketBoxManagerBeanDefinition.java">
+</file>
+<file name="/pedroigor/java/workspace-new/picketlink/picketbox-deltaspike/src/main/java/org/picketbox/deltaspike/PicketBoxUser.java">
+</file>
+<file name="/pedroigor/java/workspace-new/picketlink/picketbox-deltaspike/src/main/java/org/picketbox/deltaspike/authorization/RestrictedRoles.java">
+</file>
+<file name="/pedroigor/java/workspace-new/picketlink/picketbox-deltaspike/src/main/java/org/picketbox/deltaspike/authorization/AuthorizationManager.java">
+</file>
+<file name="/pedroigor/java/workspace-new/picketlink/picketbox-deltaspike/src/main/java/org/picketbox/deltaspike/authorization/UserLoggedIn.java">
+</file>
+<file name="/pedroigor/java/workspace-new/picketlink/picketbox-deltaspike/src/main/java/org/picketbox/deltaspike/PicketBoxManagerWrapper.java">
+</file>
+<file name="/pedroigor/java/workspace-new/picketlink/picketbox-deltaspike/src/main/java/org/picketbox/deltaspike/PicketBoxIdentity.java">
+</file>
+</checkstyle>
