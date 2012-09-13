@@ -34,6 +34,7 @@ import org.jboss.picketlink.idm.model.User;
 import org.picketbox.core.Credential;
 import org.picketbox.core.PicketBoxManager;
 import org.picketbox.core.PicketBoxSubject;
+import org.picketbox.core.session.DefaultSessionId;
 
 /**
  * <p>PicketBox implementation for the {@link Identity} component. This implementation is the main integration point for DeltaSpike.</p>
@@ -60,12 +61,18 @@ public class PicketBoxIdentity extends DefaultIdentity {
      */
     @Override
     public boolean authenticate() throws AuthenticationException {
+        return authenticate(null);
+    }
+
+    private boolean authenticate(String sessionId) throws AuthenticationException {
         PicketBoxSubject subject = null;
 
         try {
-            PicketBoxSubject authenticationSubject = new PicketBoxSubject();
+            PicketBoxSubject authenticationSubject = new PicketBoxSubject(new DefaultSessionId(sessionId));
 
-            authenticationSubject.setCredential((Credential) this.credential.getCredential().getValue());
+            if (sessionId == null) {
+                authenticationSubject.setCredential((Credential) this.credential.getCredential().getValue());
+            }
 
             subject = this.picketBoxManager.authenticate(authenticationSubject);
         } catch (Exception e) {
@@ -111,5 +118,16 @@ public class PicketBoxIdentity extends DefaultIdentity {
     @Override
     public User getUser() {
         return this.user;
+    }
+
+    /**
+     * <p>Restores the user's security context/state using the specified <code>sessionId</code></p>
+     *
+     * @param sessionId
+     * @return
+     * @throws AuthenticationException
+     */
+    public boolean restoreSession(String sessionId) throws AuthenticationException {
+        return authenticate(sessionId);
     }
 }
