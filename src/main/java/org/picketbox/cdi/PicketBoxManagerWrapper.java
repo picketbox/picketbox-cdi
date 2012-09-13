@@ -28,8 +28,6 @@ import org.picketbox.core.PicketBoxSubject;
 import org.picketbox.core.authorization.Resource;
 import org.picketbox.core.config.PicketBoxConfiguration;
 import org.picketbox.core.exceptions.AuthenticationException;
-import org.picketbox.http.PicketBoxHTTPManager;
-import org.picketbox.http.config.PicketBoxHTTPConfiguration;
 
 /**
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
@@ -40,11 +38,7 @@ public class PicketBoxManagerWrapper implements PicketBoxManager {
     private PicketBoxManager delegate;
 
     public PicketBoxManagerWrapper(PicketBoxConfiguration configuration) {
-        if (configuration instanceof PicketBoxHTTPConfiguration) {
-            delegate = new PicketBoxHTTPManager((PicketBoxHTTPConfiguration) configuration);
-        } else {
-            delegate = new DefaultPicketBoxManager(configuration);
-        }
+        delegate = new DefaultPicketBoxManager(configuration);
     }
 
     /**
