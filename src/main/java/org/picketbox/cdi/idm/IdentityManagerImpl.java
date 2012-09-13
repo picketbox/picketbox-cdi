@@ -33,6 +33,9 @@ import org.picketbox.core.PicketBoxSubject;
 import org.picketbox.core.identity.IdentityManager;
 
 /**
+ * <p>This class provides a simple integration with the PicketLink IDM {@link org.jboss.picketlink.idm.IdentityManager} interface.</p>
+ * <p>A {@link IdentityStore} must be provided/produced in order to load the user informations.</p>
+ *
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
  */
@@ -41,6 +44,9 @@ public class IdentityManagerImpl implements IdentityManager {
     @Inject
     private Instance<IdentityStore> identityStore;
 
+    /* (non-Javadoc)
+     * @see org.picketbox.core.identity.IdentityManager#getIdentity(org.picketbox.core.PicketBoxSubject)
+     */
     @Override
     public PicketBoxSubject getIdentity(PicketBoxSubject resultingSubject) {
         PicketBoxCDISubject cdiSubject = (PicketBoxCDISubject) resultingSubject;
