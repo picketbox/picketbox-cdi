@@ -51,7 +51,9 @@ public class IdentityManagerProducer {
         try {
             store = this.identityStore.get();
 
-        } finally {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
             if (store == null) {
                 return null;
             }
