@@ -24,14 +24,10 @@ package org.picketbox.cdi.authentication;
 
 import java.security.Principal;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
-import org.jboss.picketlink.idm.IdentityManager;
-import org.jboss.picketlink.idm.model.Group;
-import org.jboss.picketlink.idm.model.Role;
 import org.jboss.picketlink.idm.model.User;
 import org.picketbox.core.PicketBoxPrincipal;
 import org.picketbox.core.authentication.AbstractAuthenticationManager;
@@ -64,27 +60,6 @@ public class IDMAuthenticationManager extends AbstractAuthenticationManager {
         }
 
         return null;
-    }
-
-    @PostConstruct
-    public void loadUsers() {
-        IdentityManager identityManager = getIdentityManager();
-
-        User user = identityManager.createUser("abstractj");
-
-        user.setEmail("abstractj@aerogear.com");
-        user.setFirstName("Bruno");
-        user.setLastName("Oliveira");
-
-        user.setAttribute("password", "123");
-
-        Role roleDeveloper = identityManager.createRole("developer");
-        Role roleAdmin = identityManager.createRole("admin");
-
-        Group groupCoreDeveloper = identityManager.createGroup("Core Developers");
-
-        identityManager.grantRole(roleDeveloper, user, groupCoreDeveloper);
-        identityManager.grantRole(roleAdmin, user, groupCoreDeveloper);
     }
 
     private org.jboss.picketlink.idm.IdentityManager getIdentityManager() {
