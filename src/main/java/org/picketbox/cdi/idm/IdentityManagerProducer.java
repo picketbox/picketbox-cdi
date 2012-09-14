@@ -33,6 +33,7 @@ import org.jboss.picketlink.idm.spi.IdentityStore;
 
 /**
  * <p>Produces an {@link IdentityManager}.</p>
+ * <p> {@link IdentityManager} instances are only produced if there is some {@link IdentityStore} bean registered.</p>
  *
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
@@ -56,11 +57,11 @@ public class IdentityManagerProducer {
             }
         }
 
-        DefaultIdentityManager delegate = new DefaultIdentityManager();
+        DefaultIdentityManager identityStore = new DefaultIdentityManager();
 
-        delegate.setIdentityStore(store);
+        identityStore.setIdentityStore(store);
 
-        return delegate;
+        return identityStore;
     }
 
 }
