@@ -24,10 +24,9 @@ package org.picketbox.cdi.authentication;
 
 import java.security.Principal;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
+import org.jboss.picketlink.idm.IdentityManager;
 import org.jboss.picketlink.idm.model.User;
 import org.picketbox.core.PicketBoxPrincipal;
 import org.picketbox.core.authentication.AbstractAuthenticationManager;
@@ -40,21 +39,20 @@ import org.picketbox.core.exceptions.AuthenticationException;
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
  */
-@ApplicationScoped
 public class IDMAuthenticationManager extends AbstractAuthenticationManager {
 
     @Inject
-    private Instance<org.jboss.picketlink.idm.IdentityManager> identityManager;
+    private IdentityManager identityManager;
 
     /* (non-Javadoc)
      * @see org.picketbox.core.authentication.AbstractAuthenticationManager#authenticate(java.lang.String, java.lang.Object)
      */
     @Override
     public Principal authenticate(String username, Object credential) throws AuthenticationException {
-        User user = getIdentityManager().getUser(username);
+        User user = this.identityManager.getUser(username);
 
         if (user != null) {
-            if (getIdentityManager().validatePassword(user, credential.toString())) {
+            if (this.identityManager.validatePassword(user, credential.toString())) {
                 return new PicketBoxPrincipal(username);
             }
         }
@@ -62,11 +60,6 @@ public class IDMAuthenticationManager extends AbstractAuthenticationManager {
         return null;
     }
 
-    private org.jboss.picketlink.idm.IdentityManager getIdentityManager() {
-        try {
-            return this.identityManager.get();
-        } finally {
-        }
-    }
+
 
 }
