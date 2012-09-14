@@ -53,7 +53,7 @@ public class IdentityManagerProducer {
 
         } finally {
             if (store == null) {
-                return null;
+                throw new RuntimeException("No Identity Store was provided.");
             }
         }
 

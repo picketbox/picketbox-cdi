@@ -43,7 +43,7 @@ import org.picketbox.core.identity.IdentityManager;
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
  */
-public class IdentityManagerImpl implements IdentityManager {
+public class PicketLinkIdentityManager implements IdentityManager {
 
     @Inject
     private Instance<org.jboss.picketlink.idm.IdentityManager> identityManager;

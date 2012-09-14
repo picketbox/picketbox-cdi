@@ -55,47 +55,7 @@ public abstract class AbstractArquillianTestCase {
      */
     @Deployment
     public static WebArchive createTestArchive() {
-        WebArchive archive = ShrinkWrap
-                .create(WebArchive.class, "test.jar")
-                .addAsManifestResource(getBeansXml(), ArchivePaths.create("beans.xml"))
-                .addPackages(true, PicketBoxExtension.class.getPackage())
-                .addAsLibraries(
-                        ShrinkWrap.createFromZipFile(
-                                JavaArchive.class,
-                                DependencyResolvers.use(MavenDependencyResolver.class).goOffline()
-                                        .loadMetadataFromPom("pom.xml")
-                                        .artifact("org.apache.deltaspike.modules:deltaspike-security-module-impl")
-                                        .resolveAsFiles()[0]))
-                .addAsLibraries(
-                        ShrinkWrap.createFromZipFile(
-                                JavaArchive.class,
-                                DependencyResolvers.use(MavenDependencyResolver.class).goOffline()
-                                        .loadMetadataFromPom("pom.xml")
-                                        .artifact("org.jboss.picketlink:picketlink-cdi-impl")
-                                        .resolveAsFiles()[0]))
-                .addAsLibraries(
-                        ShrinkWrap.createFromZipFile(
-                                JavaArchive.class,
-                                DependencyResolvers.use(MavenDependencyResolver.class).goOffline()
-                                        .loadMetadataFromPom("pom.xml")
-                                        .artifact("org.jboss.picketlink:picketlink-cdi-api")
-                                        .resolveAsFiles()[0]))
-                .addAsLibraries(
-                        ShrinkWrap.createFromZipFile(
-                                JavaArchive.class,
-                                DependencyResolvers.use(MavenDependencyResolver.class).goOffline()
-                                        .loadMetadataFromPom("pom.xml")
-                                        .artifact("org.picketbox:picketbox-core")
-                                        .resolveAsFiles()[0]));
-
-        System.out.println(archive.toString(true));
-
-        return archive;
+        return ArchiveUtil.createTestArchive();
     }
 
-    private static Asset getBeansXml() {
-        Asset beansXml = new StringAsset("<beans>" + "</beans>");
-
-        return beansXml;
-    }
 }
