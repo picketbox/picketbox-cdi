@@ -51,11 +51,9 @@ public class IdentityManagerProducer {
         try {
             store = this.identityStore.get();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
+        } finally {
             if (store == null) {
-                return null;
+                throw new RuntimeException("No Identity Store was provided.");
             }
         }
 
