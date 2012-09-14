@@ -33,7 +33,6 @@ import org.jboss.picketlink.cdi.internal.DefaultIdentity;
 import org.jboss.picketlink.idm.model.User;
 import org.picketbox.core.Credential;
 import org.picketbox.core.PicketBoxManager;
-import org.picketbox.core.PicketBoxSubject;
 import org.picketbox.core.session.DefaultSessionId;
 
 /**
@@ -65,16 +64,16 @@ public class PicketBoxIdentity extends DefaultIdentity {
     }
 
     private boolean authenticate(String sessionId) throws AuthenticationException {
-        PicketBoxSubject subject = null;
+        PicketBoxCDISubject subject = null;
 
         try {
-            PicketBoxSubject authenticationSubject = new PicketBoxCDISubject(new DefaultSessionId(sessionId));
+            PicketBoxCDISubject authenticationSubject = new PicketBoxCDISubject(new DefaultSessionId(sessionId));
 
             if (sessionId == null) {
                 authenticationSubject.setCredential((Credential) this.credential.getCredential().getValue());
             }
 
-            subject = this.picketBoxManager.authenticate(authenticationSubject);
+            subject = (PicketBoxCDISubject) this.picketBoxManager.authenticate(authenticationSubject);
         } catch (Exception e) {
             //TODO: better exception handling
             throw new AuthenticationException(e.getMessage());
@@ -100,7 +99,7 @@ public class PicketBoxIdentity extends DefaultIdentity {
         }
     }
 
-    private void createUser(PicketBoxSubject subject) {
+    private void createUser(PicketBoxCDISubject subject) {
         this.user = new PicketBoxUser(subject);
     }
 

@@ -38,15 +38,24 @@ public class PicketBoxUser extends SimpleUser {
 
     private static final long serialVersionUID = 538628499329175561L;
 
-    private PicketBoxSubject subject;
+    private PicketBoxCDISubject subject;
 
-    public PicketBoxUser(PicketBoxSubject subject) {
+    public PicketBoxUser(PicketBoxCDISubject subject) {
         super(subject.getUser().getName());
         this.subject = subject;
     }
 
-    public PicketBoxSubject getSubject() {
+    public PicketBoxCDISubject getSubject() {
         return subject;
+    }
+
+    @Override
+    public String getFullName() {
+        if (getSubject().getIdmUser() == null) {
+            return null;
+        }
+
+        return getSubject().getIdmUser().getFullName();
     }
 
     public boolean hasRole(String role) {
