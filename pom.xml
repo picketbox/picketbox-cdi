@@ -25,7 +25,8 @@
 	</organization>
 	<properties>
 		<picketbox.core.version>5.0.0-SNAPSHOT</picketbox.core.version>
-		<picketbox.http.version>5.0.0-SNAPSHOT</picketbox.http.version>
+		<picketlink.cdi.version>1.0-20120910</picketlink.cdi.version>
+		<picketlink.idm.version>2.0-SNAPSHOT</picketlink.idm.version>
 		<deltaspike.version>0.3-incubating</deltaspike.version>
 		<arquillian.version>1.0.1.Final</arquillian.version>
 		<weld.version>1.1.5.Final</weld.version>
@@ -60,7 +61,7 @@
 		<dependency>
 			<groupId>org.jboss.picketlink</groupId>
 			<artifactId>picketlink-idm-impl</artifactId>
-			<version>2.0-SNAPSHOT</version>
+			<version>${picketlink.idm.version}</version>
 		</dependency>
 		<!-- JBoss Logging -->
 		<dependency>
@@ -78,12 +79,12 @@
 		<dependency>
 			<groupId>org.jboss.picketlink</groupId>
 			<artifactId>picketlink-cdi-api</artifactId>
-			<version>1.0-20120910</version>
+			<version>${picketlink.cdi.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.picketlink</groupId>
 			<artifactId>picketlink-cdi-impl</artifactId>
-			<version>1.0-20120910</version>
+			<version>${picketlink.cdi.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.deltaspike.core</groupId>
@@ -106,6 +107,12 @@
 			<version>${deltaspike.version}</version>
 		</dependency>
 		<!-- Test dependencies -->
+		<dependency>
+			<groupId>org.jboss.picketlink</groupId>
+			<artifactId>picketlink-idm-impl</artifactId>
+			<version>${picketlink.idm.version}</version>
+			<type>test-jar</type>
+		</dependency>
 		<dependency>
 			<groupId>org.jboss.weld</groupId>
 			<artifactId>weld-core</artifactId>
