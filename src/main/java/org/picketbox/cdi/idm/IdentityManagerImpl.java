@@ -22,11 +22,15 @@
 
 package org.picketbox.cdi.idm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
-import org.jboss.picketlink.idm.internal.DefaultIdentityManager;
+import org.jboss.picketlink.idm.model.Membership;
 import org.jboss.picketlink.idm.model.User;
+import org.jboss.picketlink.idm.query.MembershipQuery;
 import org.jboss.picketlink.idm.spi.IdentityStore;
 import org.picketbox.cdi.PicketBoxCDISubject;
 import org.picketbox.core.PicketBoxSubject;
@@ -42,7 +46,7 @@ import org.picketbox.core.identity.IdentityManager;
 public class IdentityManagerImpl implements IdentityManager {
 
     @Inject
-    private Instance<IdentityStore> identityStore;
+    private Instance<org.jboss.picketlink.idm.IdentityManager> identityManager;
 
     /* (non-Javadoc)
      * @see org.picketbox.core.identity.IdentityManager#getIdentity(org.picketbox.core.PicketBoxSubject)
@@ -51,34 +55,37 @@ public class IdentityManagerImpl implements IdentityManager {
     public PicketBoxSubject getIdentity(PicketBoxSubject resultingSubject) {
         PicketBoxCDISubject cdiSubject = (PicketBoxCDISubject) resultingSubject;
 
-        DefaultIdentityManager delegate = getIdentityManager();
+        org.jboss.picketlink.idm.IdentityManager delegate = getIdentityManager();
 
         if (delegate != null) {
+            // retrieve the user informations
             User user = delegate.getUser(cdiSubject.getUser().getName());
 
             cdiSubject.setIdmUser(user);
+
+            // retrieve the memberships for the user
+            MembershipQuery membershipQuery = delegate.createMembershipQuery();
+
+            membershipQuery.setUser(user);
+
+            List<Membership> roles = membershipQuery.executeQuery(membershipQuery);
+            List<String> roleNames = new ArrayList<String>();
+
+            for (Membership membership : roles) {
+                roleNames.add(membership.getRole().getName());
+            }
+
+            cdiSubject.setRoleNames(roleNames);
         }
 
         return cdiSubject;
     }
 
-    protected DefaultIdentityManager getIdentityManager() {
-        IdentityStore store = null;
-
+    protected org.jboss.picketlink.idm.IdentityManager getIdentityManager() {
         try {
-            store = this.identityStore.get();
-
+            return this.identityManager.get();
         } finally {
-            if (store == null) {
-                return null;
-            }
         }
-
-        DefaultIdentityManager delegate = new DefaultIdentityManager();
-
-        delegate.setIdentityStore(store);
-
-        return delegate;
     }
 
 }
