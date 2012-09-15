@@ -26,9 +26,12 @@ import javax.inject.Inject;
 
 import junit.framework.Assert;
 
+import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.picketlink.cdi.authentication.Authenticator;
 import org.jboss.picketlink.idm.model.User;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
+import org.picketbox.cdi.test.arquillian.ArchiveUtil;
 
 /**
  * <p>
@@ -44,6 +47,22 @@ public class AuthenticationTestCase extends AbstractAuthenticationTestCase {
     @Inject
     private WhoAmIService whoAmIService;
 
+    /**
+     * <p>
+     * Creates a simple {@link WebArchive} for deployment with the necessary structure/configuration to run the tests.
+     * </p>
+     *
+     * @return
+     */
+    @Deployment
+    public static WebArchive createTestArchive() {
+        WebArchive archive = ArchiveUtil.createTestArchive();
+        
+        archive.addPackages(true, AuthenticationTestCase.class.getPackage());
+        
+        return archive;
+    }
+    
     /**
      * <p>Tests a successful authentication.</p>
      *

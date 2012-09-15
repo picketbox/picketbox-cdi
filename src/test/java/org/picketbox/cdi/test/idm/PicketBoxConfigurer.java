@@ -20,25 +20,17 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.picketbox.cdi.test;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.picketbox.cdi.test.idm;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 
-import org.picketbox.cdi.event.CDIAuthenticationEventManager;
-import org.picketbox.core.PicketBoxManager;
-import org.picketbox.core.PicketBoxSubject;
+import org.picketbox.cdi.authentication.IDMAuthenticationManager;
 import org.picketbox.core.config.ConfigurationBuilder;
-import org.picketbox.core.config.PicketBoxConfiguration;
-import org.picketbox.core.identity.IdentityManager;
 
 /**
- * <p>Bean responsible for produce the {@link PicketBoxConfiguration}. This configuration will be used during the {@link PicketBoxManager} startup.</p>
+ * <p>Bean responsible for produce the {@link ConfigurationBuilder} that uses the {@link IDMAuthenticationManager} to authenticate users using the PicketLink IDM API.</p>
  *
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
@@ -47,36 +39,17 @@ import org.picketbox.core.identity.IdentityManager;
 public class PicketBoxConfigurer {
 
     @Inject
-    private BeanManager beanManager;
-
+    private IDMAuthenticationManager authenticationManager;
+    
     @Produces
-    public PicketBoxConfiguration createConfiguration() {
+    public ConfigurationBuilder createConfiguration() {
         ConfigurationBuilder builder = new ConfigurationBuilder();
 
         builder
             .authentication()
-                .eventManager().manager(new CDIAuthenticationEventManager(this.beanManager))
-            .identityManager()
-                .manager(createIdentityManager());
+                .authManager(this.authenticationManager);
 
-        return builder.build();
-    }
-
-    private IdentityManager createIdentityManager() {
-        return new IdentityManager() {
-
-            @Override
-            public PicketBoxSubject getIdentity(PicketBoxSubject resultingSubject) {
-                List<String> roles = new ArrayList<String>();
-
-                roles.add("Manager");
-                roles.add("Financial");
-
-                resultingSubject.setRoleNames(roles);
-
-                return resultingSubject;
-            }
-        };
+        return builder;
     }
 
 }

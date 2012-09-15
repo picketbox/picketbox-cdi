@@ -68,11 +68,18 @@ public class IdentityManagerTestCase extends AbstractJPAIdentityStoreTestCase {
     @Inject
     private IdentityManager identityManager;
 
+    /**
+     * <p>
+     * Creates a simple {@link WebArchive} for deployment with the necessary structure/configuration to run the tests.
+     * </p>
+     *
+     * @return
+     */
     @Deployment
     public static WebArchive createTestArchive() {
         WebArchive archive = ArchiveUtil.createTestArchive();
         
-        archive.delete("/WEB-INF/classes/org/picketbox/cdi/test/PicketBoxConfigurer.class");
+        archive.addPackages(true, IdentityManagerTestCase.class.getPackage());
         
         return archive;
     }

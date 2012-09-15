@@ -52,7 +52,7 @@ public abstract class AbstractAuthenticationTestCase extends AbstractArquillianT
 
     @Inject
     protected LoginCredentials credential;
-
+    
     /**
      * <p>Authenticates the user</p>
      *

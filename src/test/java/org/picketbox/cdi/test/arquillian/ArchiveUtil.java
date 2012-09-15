@@ -23,7 +23,9 @@
 package org.picketbox.cdi.test.arquillian;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.ArchivePaths;
+import org.jboss.shrinkwrap.api.Filter;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.Asset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
@@ -50,7 +52,11 @@ public class ArchiveUtil {
         WebArchive archive = ShrinkWrap
                 .create(WebArchive.class, "test.jar")
                 .addAsManifestResource(getBeansXml(), ArchivePaths.create("beans.xml"))
-                .addPackages(true, PicketBoxExtension.class.getPackage())
+                .addPackages(true, new Filter<ArchivePath>() {
+                    @Override
+                    public boolean include(ArchivePath object) {
+                        return object.get().indexOf("/test/") == -1;
+                    }}, PicketBoxExtension.class.getPackage())
                 .addAsLibraries(
                         ShrinkWrap.createFromZipFile(
                                 JavaArchive.class,
