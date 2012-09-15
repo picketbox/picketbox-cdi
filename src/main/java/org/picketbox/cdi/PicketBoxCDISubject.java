@@ -27,6 +27,13 @@ import org.picketbox.core.PicketBoxSubject;
 import org.picketbox.core.session.DefaultSessionId;
 
 /**
+ * <p>
+ * Custom implementation of {@link PicketBoxSubject}. This class only exists to allow setting the {@link User} from the
+ * PicketLink IDM API.
+ * </p>
+ *
+ * TODO: PicketBox Core native support for the PicketLink IDM API.
+ *
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
  */

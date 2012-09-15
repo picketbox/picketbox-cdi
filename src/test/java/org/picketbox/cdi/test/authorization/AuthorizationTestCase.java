@@ -25,8 +25,11 @@ package org.picketbox.cdi.test.authorization;
 import javax.inject.Inject;
 
 import org.apache.deltaspike.security.api.authorization.AccessDeniedException;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.picketbox.cdi.authorization.RestrictedRoles;
+import org.picketbox.cdi.test.arquillian.ArchiveUtil;
 import org.picketbox.cdi.test.authentication.AbstractAuthenticationTestCase;
 
 /**
@@ -43,6 +46,22 @@ public class AuthorizationTestCase extends AbstractAuthenticationTestCase {
     @Inject
     private ProtectedService protectedService;
 
+    /**
+     * <p>
+     * Creates a simple {@link WebArchive} for deployment with the necessary structure/configuration to run the tests.
+     * </p>
+     *
+     * @return
+     */
+    @Deployment
+    public static WebArchive createTestArchive() {
+        WebArchive archive = ArchiveUtil.createTestArchive();
+        
+        archive.addPackages(true, AuthorizationTestCase.class.getPackage());
+        
+        return archive;
+    }
+    
     /**
      * <p>
      * Tests if an invocation for a unprotected method is allowed.

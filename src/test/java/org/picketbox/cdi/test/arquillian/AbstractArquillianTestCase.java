@@ -22,22 +22,12 @@
 
 package org.picketbox.cdi.test.arquillian;
 
-import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ArchivePaths;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.Asset;
-import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
-import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.runner.RunWith;
-import org.picketbox.cdi.PicketBoxExtension;
 
 /**
  * <p>
- * Base class for Arquillian test cases..
+ * Base class for Arquillian test cases.
  * </p>
  *
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
@@ -46,16 +36,5 @@ import org.picketbox.cdi.PicketBoxExtension;
 @RunWith(Arquillian.class)
 public abstract class AbstractArquillianTestCase {
 
-    /**
-     * <p>
-     * Creates a simple {@link WebArchive} for deployment with the necessary structure/configuration to run the tests.
-     * </p>
-     *
-     * @return
-     */
-    @Deployment
-    public static WebArchive createTestArchive() {
-        return ArchiveUtil.createTestArchive();
-    }
-
+    
 }

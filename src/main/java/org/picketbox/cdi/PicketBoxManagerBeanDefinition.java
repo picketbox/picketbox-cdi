@@ -39,8 +39,12 @@ import javax.enterprise.inject.spi.InjectionPoint;
 import javax.enterprise.inject.spi.InjectionTarget;
 import javax.enterprise.util.AnnotationLiteral;
 
+import org.jboss.picketlink.idm.spi.IdentityStore;
+import org.picketbox.cdi.event.CDIAuthenticationEventManager;
+import org.picketbox.cdi.idm.PicketLinkIdentityManager;
 import org.picketbox.core.PicketBoxManager;
-import org.picketbox.core.config.PicketBoxConfiguration;
+import org.picketbox.core.config.ConfigurationBuilder;
+import org.picketbox.core.identity.IdentityManager;
 
 /**
  * <p>{@link Bean} implementation to define/customize the behaviour for {@link PicketBoxManager} instances.</p>
@@ -66,7 +70,17 @@ public class PicketBoxManagerBeanDefinition implements Bean<PicketBoxManager> {
     public PicketBoxManager create(CreationalContext<PicketBoxManager> creationalContext) {
         PicketBoxManager picketBoxManager = null;
 
-        picketBoxManager = new PicketBoxManagerWrapper(resolveConfiguration());
+        ConfigurationBuilder configurationBuilder = resolveConfigurationBuilder();
+
+        IdentityStore identityStore = resolveIdentityStore();
+
+        if (identityStore != null) {
+            configurationBuilder.identityManager().manager(resolveIdentityManager());
+        }
+
+        configurationBuilder.eventManager().manager(new CDIAuthenticationEventManager(this.beanManager));
+
+        picketBoxManager = new PicketBoxManagerWrapper(configurationBuilder.build());
 
         picketBoxManager.start();
 
@@ -76,21 +90,61 @@ public class PicketBoxManagerBeanDefinition implements Bean<PicketBoxManager> {
     }
 
     /**
-     * <p>Resolves the {@link PicketBoxConfiguration} instance to be used during the {@link PicketBoxManager} creation.</p>
+     * <p>Resolves the {@link ConfigurationBuilder} instance to be used during the {@link PicketBoxManager} creation.</p>
      *
      * @return
      */
     @SuppressWarnings({ "unchecked", "serial" })
-    private PicketBoxConfiguration resolveConfiguration() {
-        Set<Bean<?>> beans = this.beanManager.getBeans(PicketBoxConfiguration.class, new AnnotationLiteral<Any>(){});
+    private ConfigurationBuilder resolveConfigurationBuilder() {
+        Set<Bean<?>> beans = this.beanManager.getBeans(ConfigurationBuilder.class, new AnnotationLiteral<Any>(){});
 
         if (beans.isEmpty()) {
-            throw new IllegalStateException("No PicketBoxConfiguration provided. Maybe you forgot to provide a @Producer method for the PicketBoxConfiguration.");
+            throw new IllegalStateException("No ConfigurationBuilder provided. Maybe you forgot to provide a @Producer method for the ConfigurationBuilder.");
         }
 
-        Bean<PicketBoxConfiguration> bean = (Bean<PicketBoxConfiguration>) beans.iterator().next();
+        Bean<ConfigurationBuilder> bean = (Bean<ConfigurationBuilder>) beans.iterator().next();
 
-        CreationalContext<PicketBoxConfiguration> createCreationalContext = beanManager.createCreationalContext(bean);
+        CreationalContext<ConfigurationBuilder> createCreationalContext = beanManager.createCreationalContext(bean);
+
+        return bean.create(createCreationalContext);
+    }
+
+    /**
+     * <p>Resolves the {@link IdentityStore} instance to be used with the {@link PicketLinkIdentityManager}.</p>
+     *
+     * @return
+     */
+    @SuppressWarnings({ "unchecked", "serial" })
+    private IdentityStore resolveIdentityStore() {
+        Set<Bean<?>> beans = this.beanManager.getBeans(IdentityStore.class, new AnnotationLiteral<Any>(){});
+
+        if (beans.isEmpty()) {
+            return null;
+        }
+
+        Bean<IdentityStore> bean = (Bean<IdentityStore>) beans.iterator().next();
+
+        CreationalContext<IdentityStore> createCreationalContext = beanManager.createCreationalContext(bean);
+
+        return bean.create(createCreationalContext);
+    }
+
+    /**
+     * <p>Resolves the {@link PicketLinkIdentityManager} instance to be used.</p>
+     *
+     * @return
+     */
+    @SuppressWarnings({ "unchecked", "serial" })
+    private IdentityManager resolveIdentityManager() {
+        Set<Bean<?>> beans = this.beanManager.getBeans(PicketLinkIdentityManager.class, new AnnotationLiteral<Any>(){});
+
+        if (beans.isEmpty()) {
+            return null;
+        }
+
+        Bean<PicketLinkIdentityManager> bean = (Bean<PicketLinkIdentityManager>) beans.iterator().next();
+
+        CreationalContext<PicketLinkIdentityManager> createCreationalContext = beanManager.createCreationalContext(bean);
 
         return bean.create(createCreationalContext);
     }
