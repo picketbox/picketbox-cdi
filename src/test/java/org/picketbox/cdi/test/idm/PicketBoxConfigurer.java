@@ -48,8 +48,8 @@ public class PicketBoxConfigurer {
         CDIConfigurationBuilder builder = new CDIConfigurationBuilder(this.beanManager);
 
         builder
-            .authentication().idm()
-            .identityManager().jpa();
+            .authentication().idmAuthentication()
+            .identityManager().jpaStore();
 
         return builder;
     }
