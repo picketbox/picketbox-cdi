@@ -36,14 +36,15 @@ import org.apache.deltaspike.security.api.authorization.annotation.SecurityBindi
 
 /**
  * <p>
- * This annotation should be used to inject PicketBox specific implementations for some DeltaSpike components. Eg.: the Identity
- * component.
+ * This annotation can be used on methods and types to define a security constraint where only authenticated users can invoke
+ * them.
  * </p>
  *
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
+ * @see AuthorizationManager
  */
-@Target({ TYPE, METHOD})
+@Target({ TYPE, METHOD })
 @Retention(RUNTIME)
 @SecurityBindingType
 @Documented

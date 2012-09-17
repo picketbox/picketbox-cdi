@@ -28,14 +28,14 @@ import org.apache.deltaspike.security.api.authorization.AccessDeniedException;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
-import org.picketbox.cdi.authorization.RestrictedRoles;
+import org.picketbox.cdi.authorization.RolesAllowed;
 import org.picketbox.cdi.test.arquillian.ArchiveUtil;
 import org.picketbox.cdi.test.authentication.AbstractAuthenticationTestCase;
 
 /**
  * <p>
  * Tests some simple method authorization scenarios. Basically, the tests asserts if the {@link ProtectedService} methods are
- * being protected by the roles defined in the {@link RestrictedRoles} annotation.
+ * being protected by the roles defined in the {@link RolesAllowed} annotation.
  * </p>
  *
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>

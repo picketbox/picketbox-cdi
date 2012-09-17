@@ -22,7 +22,7 @@
 
 package org.picketbox.cdi.test.authorization;
 
-import org.picketbox.cdi.authorization.RestrictedRoles;
+import org.picketbox.cdi.authorization.RolesAllowed;
 
 /**
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
@@ -30,7 +30,7 @@ import org.picketbox.cdi.authorization.RestrictedRoles;
  */
 public class ProtectedService {
 
-    @RestrictedRoles ({"Manager"})
+    @RolesAllowed ({"Manager"})
     public void onlyForManagersOperation() {
 
     }
@@ -39,7 +39,7 @@ public class ProtectedService {
 
     }
 
-    @RestrictedRoles ({"Executive"})
+    @RolesAllowed ({"Executive"})
     public void onlyForExecutives() {
 
     }

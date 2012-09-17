@@ -20,36 +20,44 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.picketbox.cdi.event;
+package org.picketbox.cdi.util;
 
-import javax.enterprise.inject.Typed;
-import javax.enterprise.inject.spi.BeanManager;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
-import org.picketbox.core.authentication.AuthenticationEventManager;
-import org.picketbox.core.authentication.event.AuthenticationEvent;
-import org.picketbox.core.authentication.event.AuthenticationEventHandler;
+import javax.interceptor.InvocationContext;
 
 /**
- * <p>Implementation of {@link AuthenticationEventManager} that allows to raise events using the CDI {@link BeanManager}.</p>
+ * <p>Utility class with common methods to handle Java Annotations.<p>
  *
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
  */
-@Typed
-public class CDIAuthenticationEventManager implements AuthenticationEventManager {
+public class AnnotationUtil {
 
-    private BeanManager beanManager;
-
-    public CDIAuthenticationEventManager(BeanManager beanManager) {
-        this.beanManager = beanManager;
-    }
-
-    /* (non-Javadoc)
-     * @see org.picketbox.core.authentication.AuthenticationEventManager#raiseEvent(org.picketbox.core.authentication.event.AuthenticationEvent)
+    /**
+     * <p>
+     * Returns the an {@link Annotation} instance giving its class. The annotation will be looked up on method and type levels,
+     * only.
+     * </p>
+     *
+     * @param annotationClass
+     * @param ctx
+     * @return
      */
-    @Override
-    public void raiseEvent(AuthenticationEvent<? extends AuthenticationEventHandler> event) {
-        beanManager.fireEvent(event);
+    public static <T extends Annotation> T getDeclaredAnnotation(Class<T> annotationClass, InvocationContext ctx) {
+        Method method = ctx.getMethod();
+        Class<?> type = method.getDeclaringClass();
+
+        if (method.isAnnotationPresent(annotationClass)) {
+            return method.getAnnotation(annotationClass);
+        }
+
+        if (type.isAnnotationPresent(annotationClass)) {
+            return type.getAnnotation(annotationClass);
+        }
+
+        return null;
     }
 
 }

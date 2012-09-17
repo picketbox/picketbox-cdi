@@ -35,14 +35,20 @@ import javax.enterprise.util.Nonbinding;
 import org.apache.deltaspike.security.api.authorization.annotation.SecurityBindingType;
 
 /**
+ * <p>
+ * This annotation can be used on methods and types to define a security constraint where only the specified roles are allowed to invoke
+ * them.
+ * </p>
+ *
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
+ * @see AuthorizationManager
  */
 @Retention(RUNTIME)
-@Target({METHOD, TYPE})
+@Target({ METHOD, TYPE })
 @SecurityBindingType
 @Documented
-public @interface RestrictedRoles {
+public @interface RolesAllowed {
 
     @Nonbinding
     String[] value() default {};

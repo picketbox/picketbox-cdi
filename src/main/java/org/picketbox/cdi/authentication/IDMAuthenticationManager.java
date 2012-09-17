@@ -49,6 +49,10 @@ public class IDMAuthenticationManager extends AbstractAuthenticationManager {
      */
     @Override
     public Principal authenticate(String username, Object credential) throws AuthenticationException {
+        if (!(credential instanceof String)) {
+            throw new IllegalArgumentException("IDM Authentication Manager only supports java.lang.String credentials/password.");
+        }
+
         User user = this.identityManager.getUser(username);
 
         if (user != null) {
@@ -59,7 +63,5 @@ public class IDMAuthenticationManager extends AbstractAuthenticationManager {
 
         return null;
     }
-
-
 
 }

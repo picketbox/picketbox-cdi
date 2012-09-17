@@ -22,7 +22,6 @@
 
 package org.picketbox.cdi.test.arquillian;
 
-import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.Filter;
@@ -36,6 +35,8 @@ import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.picketbox.cdi.PicketBoxExtension;
 
 /**
+ * <p>Utility class with common methods to handle ShrinkWrap archives.</p>
+ * 
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
  */
@@ -85,8 +86,6 @@ public class ArchiveUtil {
                                         .loadMetadataFromPom("pom.xml")
                                         .artifact("org.picketbox:picketbox-core")
                                         .resolveAsFiles()[0]));
-
-        System.out.println(archive.toString(true));
 
         return archive;
     }
