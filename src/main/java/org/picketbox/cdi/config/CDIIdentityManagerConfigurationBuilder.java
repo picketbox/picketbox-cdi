@@ -46,7 +46,7 @@ public class CDIIdentityManagerConfigurationBuilder extends IdentityManagerConfi
         super(builder);
     }
 
-    public CDIIdentityManagerConfigurationBuilder jpa() {
+    public CDIIdentityManagerConfigurationBuilder jpaStore() {
         IdentityStore identityStore = resolveIdentityStore();
 
         if (identityStore != null) {

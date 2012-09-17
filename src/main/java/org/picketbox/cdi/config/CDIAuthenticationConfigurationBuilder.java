@@ -47,7 +47,7 @@ public class CDIAuthenticationConfigurationBuilder extends AuthenticationConfigu
         return (CDIConfigurationBuilder) this.builder;
     }
 
-    public CDIAuthenticationConfigurationBuilder idm() {
+    public CDIAuthenticationConfigurationBuilder idmAuthentication() {
         super.authManager(resolveIDMAuthenticationManager());
         return this;
     }
