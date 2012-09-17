@@ -23,11 +23,13 @@
 package org.picketbox.cdi;
 
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.jboss.picketlink.cdi.Identity;
 import org.jboss.picketlink.cdi.authentication.AuthenticationException;
+import org.jboss.picketlink.cdi.authentication.event.LoginFailedEvent;
 import org.jboss.picketlink.cdi.credential.LoginCredentials;
 import org.jboss.picketlink.cdi.internal.DefaultIdentity;
 import org.jboss.picketlink.idm.model.User;
@@ -36,16 +38,22 @@ import org.picketbox.core.PicketBoxManager;
 import org.picketbox.core.session.DefaultSessionId;
 
 /**
- * <p>PicketBox implementation for the {@link Identity} component. This implementation is the main integration point for DeltaSpike.</p>
+ * <p>
+ * PicketBox implementation for the {@link Identity} component. This implementation is the main integration point for
+ * DeltaSpike.
+ * </p>
  *
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
  */
 @SessionScoped
-@Named ("identity")
+@Named("identity")
 public class PicketBoxIdentity extends DefaultIdentity {
 
     private static final long serialVersionUID = -290838764498141080L;
+
+    @Inject
+    private BeanManager beanManager;
 
     @Inject
     private LoginCredentials credential;
@@ -55,7 +63,9 @@ public class PicketBoxIdentity extends DefaultIdentity {
 
     private PicketBoxUser user;
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.apache.deltaspike.security.impl.authentication.DefaultIdentity#authenticate()
      */
     @Override
@@ -63,6 +73,17 @@ public class PicketBoxIdentity extends DefaultIdentity {
         return authenticate(null);
     }
 
+    /**
+     * <p>
+     * Performs the authentication using the specified
+     * <code>sessionId<code>/session identifier. If a valid identifier is specified, PicketBox will try to restore the user session and create
+     * the {@link Identity} state. Otherwise the credentials will be used to perform the authentication.
+     * </p>
+     *
+     * @param sessionId
+     * @return
+     * @throws AuthenticationException
+     */
     private boolean authenticate(String sessionId) throws AuthenticationException {
         PicketBoxCDISubject subject = null;
 
@@ -75,7 +96,7 @@ public class PicketBoxIdentity extends DefaultIdentity {
 
             subject = (PicketBoxCDISubject) this.picketBoxManager.authenticate(authenticationSubject);
         } catch (Exception e) {
-            //TODO: better exception handling
+            this.beanManager.fireEvent(new LoginFailedEvent(e));
             throw new AuthenticationException(e.getMessage());
         }
 
@@ -87,7 +108,9 @@ public class PicketBoxIdentity extends DefaultIdentity {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.apache.deltaspike.security.impl.authentication.DefaultIdentity#logout()
      */
     @Override
@@ -103,7 +126,9 @@ public class PicketBoxIdentity extends DefaultIdentity {
         this.user = new PicketBoxUser(subject);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.apache.deltaspike.security.impl.authentication.DefaultIdentity#isLoggedIn()
      */
     @Override
@@ -111,7 +136,9 @@ public class PicketBoxIdentity extends DefaultIdentity {
         return this.user != null && this.user.getSubject().isAuthenticated();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.apache.deltaspike.security.spi.authentication.Authenticator#getUser()
      */
     @Override
@@ -120,7 +147,9 @@ public class PicketBoxIdentity extends DefaultIdentity {
     }
 
     /**
-     * <p>Restores the user's security context/state using the specified <code>sessionId</code></p>
+     * <p>
+     * Restores the user's security context/state using the specified <code>sessionId</code>
+     * </p>
      *
      * @param sessionId
      * @return

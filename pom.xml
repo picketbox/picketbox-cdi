@@ -12,7 +12,7 @@
 	<packaging>jar</packaging>
 	<name>PicketBox CDI Integration</name>
 	<url>http://jboss.org/picketbox/</url>
-	<description>PicketBox CDI contains the integration code to use PicketBox with PicketLink CDI.</description>
+	<description>Leverages the CDI environment to use PicketBox Security features.</description>
 	<licenses>
 		<license>
 			<name>lgpl</name>
@@ -58,24 +58,18 @@
 			<artifactId>picketbox-core</artifactId>
 			<version>${picketbox.core.version}</version>
 		</dependency>
+		<!-- PicketLink -->
+		<!-- PicketLink IDM provides an Identity Management API used to maintain 
+			users,roles,groups and memberships. It is also used to check for users credentials 
+			and information. -->
 		<dependency>
 			<groupId>org.jboss.picketlink</groupId>
 			<artifactId>picketlink-idm-impl</artifactId>
 			<version>${picketlink.idm.version}</version>
 		</dependency>
-		<!-- JBoss Logging -->
-		<dependency>
-			<groupId>org.jboss.logging</groupId>
-			<artifactId>jboss-logging</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.logging</groupId>
-			<artifactId>jboss-logging-processor</artifactId>
-			<version>1.0.0.Final</version>
-			<scope>provided</scope>
-			<optional>true</optional>
-		</dependency>
-		<!-- PicketLink CDI -->
+		<!-- PicketLink CDI provides an Security API with authentication and authorization 
+			capabilities for CDI environments. PicketBox CDI provides extensions/custom 
+			code to use PicketBox architecture and features. -->
 		<dependency>
 			<groupId>org.jboss.picketlink</groupId>
 			<artifactId>picketlink-cdi-api</artifactId>
@@ -86,6 +80,7 @@
 			<artifactId>picketlink-cdi-impl</artifactId>
 			<version>${picketlink.cdi.version}</version>
 		</dependency>
+		<!-- Apache DeltaSpike -->
 		<dependency>
 			<groupId>org.apache.deltaspike.core</groupId>
 			<artifactId>deltaspike-core-api</artifactId>
@@ -105,6 +100,18 @@
 			<groupId>org.apache.deltaspike.modules</groupId>
 			<artifactId>deltaspike-security-module-impl</artifactId>
 			<version>${deltaspike.version}</version>
+		</dependency>
+		<!-- JBoss Logging -->
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging-processor</artifactId>
+			<version>1.0.0.Final</version>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 		<!-- Test dependencies -->
 		<dependency>
@@ -151,7 +158,6 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- JPA Identity Store Dependencies -->
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
@@ -180,12 +186,6 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>4.2.0.Final</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

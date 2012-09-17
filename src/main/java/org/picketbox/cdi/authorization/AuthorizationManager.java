@@ -22,8 +22,7 @@
 
 package org.picketbox.cdi.authorization;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
+import static org.picketbox.cdi.util.AnnotationUtil.getDeclaredAnnotation;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.interceptor.InvocationContext;
@@ -46,7 +45,7 @@ public class AuthorizationManager {
 
     /**
      * <p>
-     * Authorization method for the {@link RestrictedRoles} annotation.
+     * Authorization method for the {@link RolesAllowed} annotation.
      * </p>
      *
      * @param ctx
@@ -54,7 +53,7 @@ public class AuthorizationManager {
      * @return
      */
     @Secures
-    @RestrictedRoles
+    @RolesAllowed
     public boolean restrictRoles(InvocationContext ctx, Identity identity) {
         if (!identity.isLoggedIn()) {
             return false;
@@ -89,7 +88,7 @@ public class AuthorizationManager {
 
     /**
      * <p>
-     * Returns the restricted roles defined by the use of the {@link RestrictedRoles} annotation. If the annotation is not
+     * Returns the restricted roles defined by the use of the {@link RolesAllowed} annotation. If the annotation is not
      * present a empty array is returned.
      * </p>
      *
@@ -97,38 +96,13 @@ public class AuthorizationManager {
      * @return
      */
     private String[] getRestrictedRoles(InvocationContext ctx) {
-        RestrictedRoles restrictedRolesAnnotation = (RestrictedRoles) getDeclaredAnnotation(RestrictedRoles.class, ctx);
+        RolesAllowed restrictedRolesAnnotation = getDeclaredAnnotation(RolesAllowed.class, ctx);
 
         if (restrictedRolesAnnotation != null) {
             return restrictedRolesAnnotation.value();
         }
 
         return new String[] {};
-    }
-
-    /**
-     * <p>
-     * Returns the an {@link Annotation} instance giving its class. The annotation will be looked up on method and type levels,
-     * only.
-     * </p>
-     *
-     * @param annotationClass
-     * @param ctx
-     * @return
-     */
-    private Annotation getDeclaredAnnotation(Class<? extends Annotation> annotationClass, InvocationContext ctx) {
-        Method method = ctx.getMethod();
-        Class<?> type = method.getDeclaringClass();
-
-        if (method.isAnnotationPresent(RestrictedRoles.class)) {
-            return method.getAnnotation(RestrictedRoles.class);
-        }
-
-        if (type.isAnnotationPresent(RestrictedRoles.class)) {
-            return type.getAnnotation(RestrictedRoles.class);
-        }
-
-        return null;
     }
 
 }
