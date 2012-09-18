@@ -52,7 +52,7 @@ public class CDIIdentityManagerConfigurationBuilder extends IdentityManagerConfi
         if (identityStore != null) {
             super.manager(resolveIdentityManager());
         } else {
-            throw new ConfigurationException("No provided IdentityStore configuration was found.");
+            throw new ConfigurationException("No IdentityStore was provided.");
         }
 
         return this;
