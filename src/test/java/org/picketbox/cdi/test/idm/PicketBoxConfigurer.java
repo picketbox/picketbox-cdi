@@ -49,7 +49,7 @@ public class PicketBoxConfigurer {
 
         builder
             .authentication().idmAuthentication()
-            .identityManager().jpaStore();
+            .identityManager().providedStore();
 
         return builder;
     }
