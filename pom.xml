@@ -119,6 +119,7 @@
 			<artifactId>picketlink-idm-impl</artifactId>
 			<version>${picketlink.idm.version}</version>
 			<type>test-jar</type>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.weld</groupId>
