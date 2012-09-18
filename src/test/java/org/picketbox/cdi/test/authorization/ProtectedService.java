@@ -23,6 +23,7 @@
 package org.picketbox.cdi.test.authorization;
 
 import org.picketbox.cdi.authorization.RolesAllowed;
+import org.picketbox.cdi.authorization.UserLoggedIn;
 
 /**
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
@@ -36,6 +37,11 @@ public class ProtectedService {
     }
 
     public void unProtectedMethod() {
+
+    }
+    
+    @UserLoggedIn
+    public void onlyForAuthenticatedUsers() {
 
     }
 

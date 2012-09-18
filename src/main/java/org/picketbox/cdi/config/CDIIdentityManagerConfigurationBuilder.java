@@ -46,11 +46,13 @@ public class CDIIdentityManagerConfigurationBuilder extends IdentityManagerConfi
         super(builder);
     }
 
-    public CDIIdentityManagerConfigurationBuilder jpaStore() {
+    public CDIIdentityManagerConfigurationBuilder providedStore() {
         IdentityStore identityStore = resolveIdentityStore();
 
         if (identityStore != null) {
             super.manager(resolveIdentityManager());
+        } else {
+            throw new ConfigurationException("No provided IdentityStore configuration was found.");
         }
 
         return this;

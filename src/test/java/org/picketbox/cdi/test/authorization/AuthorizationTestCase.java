@@ -89,5 +89,15 @@ public class AuthorizationTestCase extends AbstractAuthenticationTestCase {
     public void testFailedAuthorization() {
         this.protectedService.onlyForExecutives();
     }
+    
+    /**
+     * <p>Tests if an invocation for a protected method is denied, considering that the user is not authenticated.</p>
+     */
+    @Test(expected = AccessDeniedException.class)
+    public void testUserNotAuthenticated() {
+        // forces a logout, so we can test if the method is restricted for authenticated users.
+        this.identity.logout();
+        this.protectedService.onlyForAuthenticatedUsers();
+    }
 
 }
