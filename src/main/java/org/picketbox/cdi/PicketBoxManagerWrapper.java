@@ -27,6 +27,7 @@ import org.picketbox.core.PicketBoxManager;
 import org.picketbox.core.PicketBoxSubject;
 import org.picketbox.core.authorization.Resource;
 import org.picketbox.core.config.PicketBoxConfiguration;
+import org.picketbox.core.event.PicketBoxEventManager;
 import org.picketbox.core.exceptions.AuthenticationException;
 
 /**
@@ -100,6 +101,11 @@ public class PicketBoxManagerWrapper implements PicketBoxManager {
      */
     public void logout(PicketBoxSubject authenticatedUser) throws IllegalStateException {
         delegate.logout(authenticatedUser);
+    }
+
+    @Override
+    public PicketBoxEventManager getEventManager() {
+        return this.delegate.getEventManager();
     }
 
 }

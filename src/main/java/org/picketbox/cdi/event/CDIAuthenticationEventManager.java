@@ -25,18 +25,18 @@ package org.picketbox.cdi.event;
 import javax.enterprise.inject.Typed;
 import javax.enterprise.inject.spi.BeanManager;
 
-import org.picketbox.core.authentication.AuthenticationEventManager;
-import org.picketbox.core.authentication.event.AuthenticationEvent;
-import org.picketbox.core.authentication.event.AuthenticationEventHandler;
+import org.picketbox.core.event.PicketBoxEvent;
+import org.picketbox.core.event.PicketBoxEventHandler;
+import org.picketbox.core.event.PicketBoxEventManager;
 
 /**
- * <p>Implementation of {@link AuthenticationEventManager} that allows to raise events using the CDI {@link BeanManager}.</p>
+ * <p>Implementation of {@link PicketBoxEventManager} that allows to raise events using the CDI {@link BeanManager}.</p>
  *
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
  */
 @Typed
-public class CDIAuthenticationEventManager implements AuthenticationEventManager {
+public class CDIAuthenticationEventManager implements PicketBoxEventManager {
 
     private BeanManager beanManager;
 
@@ -48,7 +48,7 @@ public class CDIAuthenticationEventManager implements AuthenticationEventManager
      * @see org.picketbox.core.authentication.AuthenticationEventManager#raiseEvent(org.picketbox.core.authentication.event.AuthenticationEvent)
      */
     @Override
-    public void raiseEvent(AuthenticationEvent<? extends AuthenticationEventHandler> event) {
+    public void raiseEvent(PicketBoxEvent<? extends PicketBoxEventHandler> event) {
         beanManager.fireEvent(event);
     }
 
