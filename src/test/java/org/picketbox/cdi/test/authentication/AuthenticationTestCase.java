@@ -35,8 +35,7 @@ import org.picketbox.cdi.test.arquillian.ArchiveUtil;
 
 /**
  * <p>
- * Tests a successful authentication. The {@link PicketBoxAuthenticator} is used as the DeltaSpike {@link Authenticator}
- * implementation.
+ * Tests user authentication.
  * </p>
  *
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
