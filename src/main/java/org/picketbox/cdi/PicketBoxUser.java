@@ -57,7 +57,7 @@ public class PicketBoxUser extends SimpleUser {
     }
 
     public boolean hasRole(String role) {
-        if (getSubject() != null && getSubject().isAuthenticated()) {
+        if (getSubject() != null) {
             return getSubject().hasRole(role);
         }
 
