@@ -22,8 +22,6 @@
 
 package org.picketbox.cdi;
 
-import java.util.List;
-
 import org.jboss.picketlink.idm.model.SimpleUser;
 import org.jboss.picketlink.idm.model.User;
 import org.picketbox.core.PicketBoxSubject;
@@ -59,14 +57,8 @@ public class PicketBoxUser extends SimpleUser {
     }
 
     public boolean hasRole(String role) {
-        if (getSubject() != null) {
-            List<String> roles = getSubject().getRoleNames();
-
-            for (String userRole : roles) {
-                if (userRole.equals(role)) {
-                    return true;
-                }
-            }
+        if (getSubject() != null && getSubject().isAuthenticated()) {
+            return getSubject().hasRole(role);
         }
 
         return false;
