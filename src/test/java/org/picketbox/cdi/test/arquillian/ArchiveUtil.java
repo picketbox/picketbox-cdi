@@ -61,21 +61,21 @@ public class ArchiveUtil {
                 .addAsLibraries(
                         ShrinkWrap.createFromZipFile(
                                 JavaArchive.class,
-                                DependencyResolvers.use(MavenDependencyResolver.class).goOffline()
+                                DependencyResolvers.use(MavenDependencyResolver.class)
                                         .loadMetadataFromPom("pom.xml")
                                         .artifact("org.apache.deltaspike.modules:deltaspike-security-module-impl")
                                         .resolveAsFiles()[0]))
                 .addAsLibraries(
                         ShrinkWrap.createFromZipFile(
                                 JavaArchive.class,
-                                DependencyResolvers.use(MavenDependencyResolver.class).goOffline()
+                                DependencyResolvers.use(MavenDependencyResolver.class)
                                         .loadMetadataFromPom("pom.xml")
                                         .artifact("org.jboss.picketlink:picketlink-cdi-impl")
                                         .resolveAsFiles()[0]))
                 .addAsLibraries(
                         ShrinkWrap.createFromZipFile(
                                 JavaArchive.class,
-                                DependencyResolvers.use(MavenDependencyResolver.class).goOffline()
+                                DependencyResolvers.use(MavenDependencyResolver.class)
                                         .loadMetadataFromPom("pom.xml")
                                         .artifact("org.jboss.picketlink:picketlink-cdi-api")
                                         .resolveAsFiles()[0]))
