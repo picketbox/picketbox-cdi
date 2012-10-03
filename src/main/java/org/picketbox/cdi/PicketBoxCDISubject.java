@@ -41,6 +41,10 @@ public class PicketBoxCDISubject extends PicketBoxSubject {
 
     private User idmUser;
 
+    public PicketBoxCDISubject() {
+
+    }
+
     public PicketBoxCDISubject(DefaultSessionId defaultSessionId) {
         super(defaultSessionId);
     }

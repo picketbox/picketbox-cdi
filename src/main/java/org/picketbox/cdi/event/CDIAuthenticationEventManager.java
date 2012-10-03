@@ -52,4 +52,12 @@ public class CDIAuthenticationEventManager implements PicketBoxEventManager {
         beanManager.fireEvent(event);
     }
 
+    /* (non-Javadoc)
+     * @see org.picketbox.core.event.PicketBoxEventManager#addHandler(org.picketbox.core.event.PicketBoxEventHandler)
+     */
+    @Override
+    public void addHandler(PicketBoxEventHandler handler) {
+        throw new RuntimeException("On CDI environments this method is not used.");
+    }
+
 }

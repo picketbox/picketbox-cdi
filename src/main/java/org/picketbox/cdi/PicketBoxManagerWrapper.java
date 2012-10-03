@@ -29,6 +29,7 @@ import org.picketbox.core.authorization.Resource;
 import org.picketbox.core.config.PicketBoxConfiguration;
 import org.picketbox.core.event.PicketBoxEventManager;
 import org.picketbox.core.exceptions.AuthenticationException;
+import org.picketbox.core.session.SessionManager;
 import org.picketlink.idm.IdentityManager;
 
 /**
@@ -112,5 +113,15 @@ public class PicketBoxManagerWrapper implements PicketBoxManager {
     @Override
     public IdentityManager getIdentityManager() {
         return this.delegate.getIdentityManager();
+    }
+
+    @Override
+    public PicketBoxConfiguration getConfiguration() {
+        return this.delegate.getConfiguration();
+    }
+
+    @Override
+    public SessionManager getSessionManager() {
+        return this.delegate.getSessionManager();
     }
 }

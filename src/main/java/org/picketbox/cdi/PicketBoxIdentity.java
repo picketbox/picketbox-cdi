@@ -91,7 +91,13 @@ public class PicketBoxIdentity extends DefaultIdentity {
         PicketBoxCDISubject subject = null;
 
         try {
-            PicketBoxCDISubject authenticationSubject = new PicketBoxCDISubject(new DefaultSessionId(sessionId));
+            PicketBoxCDISubject authenticationSubject = null;
+
+            if (sessionId != null) {
+                authenticationSubject = new PicketBoxCDISubject(new DefaultSessionId(sessionId));
+            } else {
+                authenticationSubject = new PicketBoxCDISubject();
+            }
 
             if (sessionId == null) {
                 authenticationSubject.setCredential((Credential) this.credential.getCredential().getValue());
