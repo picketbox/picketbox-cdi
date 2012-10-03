@@ -27,14 +27,14 @@ import static junit.framework.Assert.assertTrue;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.jboss.picketlink.cdi.Identity;
-import org.jboss.picketlink.cdi.credential.Credential;
-import org.jboss.picketlink.cdi.credential.LoginCredentials;
 import org.junit.After;
 import org.junit.Before;
 import org.picketbox.cdi.test.arquillian.AbstractArquillianTestCase;
 import org.picketbox.core.authentication.credential.UsernamePasswordCredential;
 import org.picketbox.core.authentication.event.UserAuthenticatedEvent;
+import org.picketlink.cdi.Identity;
+import org.picketlink.cdi.credential.Credential;
+import org.picketlink.cdi.credential.LoginCredentials;
 
 /**
  * <p>Base class for test cases that needs to have an authenticated user during the tests.</p>

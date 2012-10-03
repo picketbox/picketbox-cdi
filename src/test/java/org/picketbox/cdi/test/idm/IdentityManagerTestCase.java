@@ -28,24 +28,24 @@ import javax.persistence.EntityManager;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.picketlink.cdi.Identity;
-import org.jboss.picketlink.cdi.credential.Credential;
-import org.jboss.picketlink.cdi.credential.LoginCredentials;
-import org.jboss.picketlink.idm.IdentityManager;
-import org.jboss.picketlink.idm.internal.JPAIdentityStore;
-import org.jboss.picketlink.idm.internal.jpa.JPATemplate;
-import org.jboss.picketlink.idm.model.Group;
-import org.jboss.picketlink.idm.model.Role;
-import org.jboss.picketlink.idm.model.User;
-import org.jboss.picketlink.idm.spi.IdentityStore;
-import org.jboss.picketlink.test.idm.internal.jpa.AbstractJPAIdentityStoreTestCase;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.picketbox.cdi.PicketBoxUser;
+import org.picketbox.cdi.PicketBoxIdentity;
 import org.picketbox.cdi.test.arquillian.ArchiveUtil;
 import org.picketbox.core.authentication.credential.UsernamePasswordCredential;
+import org.picketbox.core.identity.impl.EntityManagerContext;
+import org.picketlink.cdi.credential.Credential;
+import org.picketlink.cdi.credential.LoginCredentials;
+import org.picketlink.idm.IdentityManager;
+import org.picketlink.idm.internal.JPAIdentityStore;
+import org.picketlink.idm.internal.jpa.JPATemplate;
+import org.picketlink.idm.model.Group;
+import org.picketlink.idm.model.Role;
+import org.picketlink.idm.model.User;
+import org.picketlink.idm.spi.IdentityStore;
+import org.picketlink.test.idm.internal.jpa.AbstractJPAIdentityManagerTestCase;
 
 /**
  * <p>Test for the PicketLink IDM support.</p>
@@ -54,20 +54,32 @@ import org.picketbox.core.authentication.credential.UsernamePasswordCredential;
  *
  */
 @RunWith(Arquillian.class)
-public class IdentityManagerTestCase extends AbstractJPAIdentityStoreTestCase {
+public class IdentityManagerTestCase extends AbstractJPAIdentityManagerTestCase {
 
     protected static final String USER_NAME = "pedroigor";
     protected static final String USER_PASSWORD = "123";
 
     @Inject
-    private Identity identity;
+    private PicketBoxIdentity identity;
 
     @Inject
     private LoginCredentials credential;
-    
+
     @Inject
     private IdentityManager identityManager;
-
+    
+    @Override
+    public void onSetupTest() throws Exception {
+        super.onSetupTest();
+        EntityManagerContext.set(this.entityManager);
+    }
+    
+    @Override
+    public void onFinishTest() throws Exception {
+        super.onFinishTest();
+        EntityManagerContext.clear();
+    }
+    
     /**
      * <p>
      * Creates a simple {@link WebArchive} for deployment with the necessary structure/configuration to run the tests.
@@ -78,15 +90,15 @@ public class IdentityManagerTestCase extends AbstractJPAIdentityStoreTestCase {
     @Deployment
     public static WebArchive createTestArchive() {
         WebArchive archive = ArchiveUtil.createTestArchive();
-        
+
         archive.addPackages(true, IdentityManagerTestCase.class.getPackage());
-        
+
         return archive;
     }
-    
+
     /**
      * <p>Creates an user using the PicketLink IDM API and performs an authentication.</p>
-     * 
+     *
      * @throws Exception
      */
     @Test
@@ -106,19 +118,17 @@ public class IdentityManagerTestCase extends AbstractJPAIdentityStoreTestCase {
 
         this.identityManager.grantRole(roleDeveloper, abstractj, groupCoreDeveloper);
         this.identityManager.grantRole(roleAdmin, abstractj, groupCoreDeveloper);
-
+        
         populateUserCredential();
-        
+
         this.identity.login();
-        
+
         Assert.assertTrue(this.identity.isLoggedIn());
-        
-        PicketBoxUser user = (PicketBoxUser) this.identity.getUser();
-        
-        Assert.assertTrue(user.hasRole("developer"));
-        Assert.assertTrue(user.hasRole("admin"));
+
+        Assert.assertTrue(identity.hasRole("developer"));
+        Assert.assertTrue(identity.hasRole("admin"));
     }
-    
+
     /**
      * <p>
      * Populates the {@link LoginCredential} with the username and password.
@@ -134,22 +144,22 @@ public class IdentityManagerTestCase extends AbstractJPAIdentityStoreTestCase {
             }
         });
     }
-    
+
     @Produces
     public IdentityStore produceIdentityStore() {
         JPAIdentityStore identityStore = (JPAIdentityStore) createIdentityStore();
-        
+
         JPATemplate jpaTemplate = new JPATemplate();
-        
+
         EntityManager entityManager = emf.createEntityManager();
-        
+
         entityManager.getTransaction().begin();
-        
+
         jpaTemplate.setEntityManager(entityManager);
-        
+
         identityStore.setJpaTemplate(jpaTemplate);
-        
+
         return identityStore;
     }
-    
+
 }

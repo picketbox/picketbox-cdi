@@ -29,6 +29,7 @@ import org.picketbox.core.authorization.Resource;
 import org.picketbox.core.config.PicketBoxConfiguration;
 import org.picketbox.core.event.PicketBoxEventManager;
 import org.picketbox.core.exceptions.AuthenticationException;
+import org.picketlink.idm.IdentityManager;
 
 /**
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
@@ -108,4 +109,8 @@ public class PicketBoxManagerWrapper implements PicketBoxManager {
         return this.delegate.getEventManager();
     }
 
+    @Override
+    public IdentityManager getIdentityManager() {
+        return this.delegate.getIdentityManager();
+    }
 }

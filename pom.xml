@@ -25,8 +25,8 @@
 	</organization>
 	<properties>
 		<picketbox.core.version>5.0.0-SNAPSHOT</picketbox.core.version>
-		<picketlink.cdi.version>1.0-20120910</picketlink.cdi.version>
-		<picketlink.idm.version>2.0-20120917</picketlink.idm.version>
+		<picketlink.core.version>2.0-SNAPSHOT</picketlink.core.version>
+		<picketlink.idm.version>2.0-SNAPSHOT</picketlink.idm.version>
 		<deltaspike.version>0.3-incubating</deltaspike.version>
 		<arquillian.version>1.0.1.Final</arquillian.version>
 		<weld.version>1.1.5.Final</weld.version>
@@ -62,23 +62,18 @@
 		<!-- PicketLink IDM provides an Identity Management API used to maintain 
 			users,roles,groups and memberships. It is also used to check for users credentials 
 			and information. -->
-		<dependency>
-			<groupId>org.jboss.picketlink</groupId>
-			<artifactId>picketlink-idm-impl</artifactId>
-			<version>${picketlink.idm.version}</version>
-		</dependency>
 		<!-- PicketLink CDI provides an Security API with authentication and authorization 
 			capabilities for CDI environments. PicketBox CDI provides extensions/custom 
 			code to use PicketBox architecture and features. -->
 		<dependency>
-			<groupId>org.jboss.picketlink</groupId>
-			<artifactId>picketlink-cdi-api</artifactId>
-			<version>${picketlink.cdi.version}</version>
+			<groupId>org.picketlink</groupId>
+			<artifactId>picketlink-core-api</artifactId>
+			<version>${picketlink.core.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jboss.picketlink</groupId>
-			<artifactId>picketlink-cdi-impl</artifactId>
-			<version>${picketlink.cdi.version}</version>
+			<groupId>org.picketlink</groupId>
+			<artifactId>picketlink-core-impl</artifactId>
+			<version>${picketlink.core.version}</version>
 		</dependency>
 		<!-- Apache DeltaSpike -->
 		<dependency>
@@ -113,9 +108,15 @@
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate.javax.persistence</groupId>
+			<artifactId>hibernate-jpa-2.0-api</artifactId>
+			<version>1.0.1.Final</version>
+			<scope>provided</scope>
+		</dependency>
 		<!-- Test dependencies -->
 		<dependency>
-			<groupId>org.jboss.picketlink</groupId>
+			<groupId>org.picketlink</groupId>
 			<artifactId>picketlink-idm-impl</artifactId>
 			<version>${picketlink.idm.version}</version>
 			<type>test-jar</type>
@@ -185,12 +186,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<version>1.0.1.Final</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

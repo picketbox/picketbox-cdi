@@ -22,14 +22,13 @@
 
 package org.picketbox.cdi.idm;
 
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Instance;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-import org.jboss.picketlink.idm.IdentityManager;
-import org.jboss.picketlink.idm.internal.DefaultIdentityManager;
-import org.jboss.picketlink.idm.spi.IdentityStore;
+import org.picketbox.core.PicketBoxManager;
+import org.picketlink.idm.IdentityManager;
+import org.picketlink.idm.spi.IdentityStore;
 
 /**
  * <p>Produces an {@link IdentityManager}.</p>
@@ -41,27 +40,12 @@ import org.jboss.picketlink.idm.spi.IdentityStore;
 public class IdentityManagerProducer {
 
     @Inject
-    private Instance<IdentityStore> identityStore;
+    private PicketBoxManager picketBoxManager;
 
     @Produces
-    @RequestScoped
+    @ApplicationScoped
     public IdentityManager produceIdentityManager() {
-        IdentityStore store = null;
-
-        try {
-            store = this.identityStore.get();
-
-        } finally {
-            if (store == null) {
-                throw new RuntimeException("No Identity Store was provided.");
-            }
-        }
-
-        DefaultIdentityManager identityStore = new DefaultIdentityManager();
-
-        identityStore.setIdentityStore(store);
-
-        return identityStore;
+        return this.picketBoxManager.getIdentityManager();
     }
 
 }

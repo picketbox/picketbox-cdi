@@ -22,9 +22,9 @@
 
 package org.picketbox.cdi;
 
-import org.jboss.picketlink.idm.model.User;
 import org.picketbox.core.PicketBoxSubject;
 import org.picketbox.core.session.DefaultSessionId;
+import org.picketlink.idm.model.User;
 
 /**
  * <p>
