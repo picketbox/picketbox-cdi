@@ -24,8 +24,8 @@ package org.picketbox.cdi.test.authentication;
 
 import javax.inject.Inject;
 
-import org.jboss.picketlink.cdi.Identity;
-import org.jboss.picketlink.idm.model.User;
+import org.picketlink.cdi.Identity;
+import org.picketlink.idm.model.User;
 
 /**
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>

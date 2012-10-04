@@ -22,16 +22,11 @@
 
 package org.picketbox.cdi.test.authorization;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 
 import org.picketbox.core.PicketBoxManager;
-import org.picketbox.core.PicketBoxSubject;
 import org.picketbox.core.config.ConfigurationBuilder;
-import org.picketbox.core.identity.IdentityManager;
 
 /**
  * <p>Bean responsible for produce the {@link ConfigurationBuilder}. This configuration will be used during the {@link PicketBoxManager} startup.</p>
@@ -46,28 +41,7 @@ public class PicketBoxConfigurer {
     public ConfigurationBuilder createConfiguration() {
         ConfigurationBuilder builder = new ConfigurationBuilder();
 
-        builder
-            .identityManager()
-                .manager(createIdentityManager());
-
         return builder;
-    }
-
-    private IdentityManager createIdentityManager() {
-        return new IdentityManager() {
-
-            @Override
-            public PicketBoxSubject getIdentity(PicketBoxSubject resultingSubject) {
-                List<String> roles = new ArrayList<String>();
-
-                roles.add("Manager");
-                roles.add("Financial");
-
-                resultingSubject.setRoleNames(roles);
-
-                return resultingSubject;
-            }
-        };
     }
 
 }

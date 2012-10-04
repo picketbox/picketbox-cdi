@@ -24,11 +24,7 @@ package org.picketbox.cdi.test.idm;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.BeanManager;
-import javax.inject.Inject;
 
-import org.picketbox.cdi.authentication.IDMAuthenticationManager;
-import org.picketbox.cdi.config.CDIConfigurationBuilder;
 import org.picketbox.core.config.ConfigurationBuilder;
 
 /**
@@ -40,18 +36,14 @@ import org.picketbox.core.config.ConfigurationBuilder;
 @ApplicationScoped
 public class PicketBoxConfigurer {
 
-    @Inject
-    private BeanManager beanManager;
-    
     @Produces
     public ConfigurationBuilder createConfiguration() {
-        CDIConfigurationBuilder builder = new CDIConfigurationBuilder(this.beanManager);
+        ConfigurationBuilder builder = new ConfigurationBuilder();
 
         builder
-            .authentication().idmAuthentication()
-            .identityManager().providedStore();
+            .identityManager().jpaStore();
 
         return builder;
     }
-
+    
 }

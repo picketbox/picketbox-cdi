@@ -27,15 +27,17 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.jboss.picketlink.cdi.Identity;
-import org.jboss.picketlink.cdi.authentication.AuthenticationException;
-import org.jboss.picketlink.cdi.authentication.event.LoginFailedEvent;
-import org.jboss.picketlink.cdi.credential.LoginCredentials;
-import org.jboss.picketlink.cdi.internal.DefaultIdentity;
-import org.jboss.picketlink.idm.model.User;
+import org.picketbox.cdi.idm.IdentityManagerBinding;
 import org.picketbox.core.Credential;
 import org.picketbox.core.PicketBoxManager;
+import org.picketbox.core.PicketBoxSubject;
 import org.picketbox.core.session.DefaultSessionId;
+import org.picketlink.cdi.Identity;
+import org.picketlink.cdi.authentication.AuthenticationException;
+import org.picketlink.cdi.authentication.event.LoginFailedEvent;
+import org.picketlink.cdi.credential.LoginCredentials;
+import org.picketlink.cdi.internal.DefaultIdentity;
+import org.picketlink.idm.model.User;
 
 /**
  * <p>
@@ -47,6 +49,7 @@ import org.picketbox.core.session.DefaultSessionId;
  *
  */
 @SessionScoped
+@IdentityManagerBinding
 @Named("identity")
 public class PicketBoxIdentity extends DefaultIdentity {
 
@@ -61,7 +64,7 @@ public class PicketBoxIdentity extends DefaultIdentity {
     @Inject
     private PicketBoxManager picketBoxManager;
 
-    private PicketBoxUser user;
+    private PicketBoxSubject subject;
 
     /*
      * (non-Javadoc)
@@ -88,7 +91,13 @@ public class PicketBoxIdentity extends DefaultIdentity {
         PicketBoxCDISubject subject = null;
 
         try {
-            PicketBoxCDISubject authenticationSubject = new PicketBoxCDISubject(new DefaultSessionId(sessionId));
+            PicketBoxCDISubject authenticationSubject = null;
+
+            if (sessionId != null) {
+                authenticationSubject = new PicketBoxCDISubject(new DefaultSessionId(sessionId));
+            } else {
+                authenticationSubject = new PicketBoxCDISubject();
+            }
 
             if (sessionId == null) {
                 authenticationSubject.setCredential((Credential) this.credential.getCredential().getValue());
@@ -101,7 +110,7 @@ public class PicketBoxIdentity extends DefaultIdentity {
         }
 
         if (subject != null && subject.isAuthenticated()) {
-            createUser(subject);
+            this.subject = subject;
             return true;
         } else {
             return false;
@@ -117,13 +126,8 @@ public class PicketBoxIdentity extends DefaultIdentity {
     public void logout() {
         if (isLoggedIn()) {
             super.logout();
-            this.picketBoxManager.logout(this.user.getSubject());
-            this.user = null;
+            this.picketBoxManager.logout(this.subject);
         }
-    }
-
-    private void createUser(PicketBoxCDISubject subject) {
-        this.user = new PicketBoxUser(subject);
     }
 
     /*
@@ -133,7 +137,7 @@ public class PicketBoxIdentity extends DefaultIdentity {
      */
     @Override
     public boolean isLoggedIn() {
-        return this.user != null && this.user.getSubject().isAuthenticated();
+        return this.subject != null && this.subject.isAuthenticated();
     }
 
     /*
@@ -143,7 +147,7 @@ public class PicketBoxIdentity extends DefaultIdentity {
      */
     @Override
     public User getUser() {
-        return this.user;
+        return this.subject.getUser();
     }
 
     /**
@@ -157,5 +161,13 @@ public class PicketBoxIdentity extends DefaultIdentity {
      */
     public boolean restoreSession(String sessionId) throws AuthenticationException {
         return authenticate(sessionId);
+    }
+
+    public boolean hasRole(String restrictedRole) {
+        return isLoggedIn() && this.subject.hasRole(restrictedRole);
+    }
+
+    public PicketBoxSubject getSubject() {
+        return this.subject;
     }
 }

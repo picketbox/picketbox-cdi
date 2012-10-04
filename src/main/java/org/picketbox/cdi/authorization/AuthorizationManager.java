@@ -28,9 +28,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.interceptor.InvocationContext;
 
 import org.apache.deltaspike.security.api.authorization.annotation.Secures;
-import org.jboss.picketlink.cdi.Identity;
-import org.picketbox.cdi.PicketBoxUser;
-import org.picketbox.core.PicketBoxSubject;
+import org.picketbox.cdi.PicketBoxIdentity;
+import org.picketlink.cdi.Identity;
 
 /**
  * <p>
@@ -54,18 +53,16 @@ public class AuthorizationManager {
      */
     @Secures
     @RolesAllowed
-    public boolean restrictRoles(InvocationContext ctx, Identity identity) {
+    public boolean restrictRoles(InvocationContext ctx, PicketBoxIdentity identity) {
         if (!identity.isLoggedIn()) {
             return false;
         }
 
-        PicketBoxUser user = (PicketBoxUser) identity.getUser();
-        PicketBoxSubject subject = user.getSubject();
 
         String[] restrictedRoles = getRestrictedRoles(ctx);
 
         for (String restrictedRole : restrictedRoles) {
-            if (subject.hasRole(restrictedRole)) {
+            if (identity.hasRole(restrictedRole)) {
                 return true;
             }
         }

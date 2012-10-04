@@ -22,9 +22,9 @@
 
 package org.picketbox.cdi;
 
-import org.jboss.picketlink.idm.model.User;
 import org.picketbox.core.PicketBoxSubject;
 import org.picketbox.core.session.DefaultSessionId;
+import org.picketlink.idm.model.User;
 
 /**
  * <p>
@@ -40,6 +40,10 @@ import org.picketbox.core.session.DefaultSessionId;
 public class PicketBoxCDISubject extends PicketBoxSubject {
 
     private User idmUser;
+
+    public PicketBoxCDISubject() {
+
+    }
 
     public PicketBoxCDISubject(DefaultSessionId defaultSessionId) {
         super(defaultSessionId);

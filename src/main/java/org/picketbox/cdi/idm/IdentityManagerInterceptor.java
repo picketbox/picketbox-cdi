@@ -20,47 +20,48 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.picketbox.cdi;
+package org.picketbox.cdi.idm;
 
-import org.jboss.picketlink.idm.model.SimpleUser;
-import org.jboss.picketlink.idm.model.User;
-import org.picketbox.core.PicketBoxSubject;
+import java.io.Serializable;
+
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.Interceptor;
+import javax.interceptor.InvocationContext;
+import javax.persistence.EntityManager;
+
+import org.picketbox.core.identity.impl.EntityManagerContext;
 
 /**
- * <p>PicketBox implementation for the {@link User} class. This class is basically a wrapper for a {@link PicketBoxSubject} instance.</p>
- *
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
  */
-public class PicketBoxUser extends SimpleUser {
+@IdentityManagerBinding
+@Interceptor
+public class IdentityManagerInterceptor implements Serializable {
 
-    private static final long serialVersionUID = 538628499329175561L;
+    private static final long serialVersionUID = 1L;
 
-    private PicketBoxCDISubject subject;
+    @Inject
+    private Instance<EntityManager> entityManager;
 
-    public PicketBoxUser(PicketBoxCDISubject subject) {
-        super(subject.getUser().getName());
-        this.subject = subject;
-    }
+    @AroundInvoke
+    public Object configureEntityManager(InvocationContext invocationContext) throws Exception {
+        EntityManager entityManager = null;
 
-    public PicketBoxCDISubject getSubject() {
-        return subject;
-    }
+        try {
+            entityManager = this.entityManager.get();
+            EntityManagerContext.set(entityManager);
+        } catch (Exception e) {
 
-    @Override
-    public String getFullName() {
-        if (getSubject().getIdmUser() == null) {
-            return null;
         }
 
-        return getSubject().getIdmUser().getFullName();
+        Object result = invocationContext.proceed();
+
+        EntityManagerContext.clear();
+
+        return result;
     }
 
-    public boolean hasRole(String role) {
-        if (getSubject() != null) {
-            return getSubject().hasRole(role);
-        }
-
-        return false;
-    }
 }

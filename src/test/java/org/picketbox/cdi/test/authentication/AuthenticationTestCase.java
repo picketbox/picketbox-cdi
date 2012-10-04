@@ -27,11 +27,10 @@ import javax.inject.Inject;
 import junit.framework.Assert;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.picketlink.cdi.authentication.Authenticator;
-import org.jboss.picketlink.idm.model.User;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.picketbox.cdi.test.arquillian.ArchiveUtil;
+import org.picketlink.idm.model.User;
 
 /**
  * <p>
