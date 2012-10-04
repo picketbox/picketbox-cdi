@@ -57,7 +57,6 @@ public class CDIAuthenticationEventManager implements PicketBoxEventManager {
      */
     @Override
     public void addHandler(PicketBoxEventHandler handler) {
-        throw new RuntimeException("On CDI environments this method is not used.");
     }
 
 }
