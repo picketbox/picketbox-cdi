@@ -166,4 +166,8 @@ public class PicketBoxIdentity extends DefaultIdentity {
     public boolean hasRole(String restrictedRole) {
         return isLoggedIn() && this.subject.hasRole(restrictedRole);
     }
+
+    public PicketBoxSubject getSubject() {
+        return this.subject;
+    }
 }
