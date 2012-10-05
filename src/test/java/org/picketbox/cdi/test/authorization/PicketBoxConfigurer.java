@@ -25,6 +25,7 @@ package org.picketbox.cdi.test.authorization;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 
+import org.picketbox.cdi.util.IdentityManagerInitializer;
 import org.picketbox.core.PicketBoxManager;
 import org.picketbox.core.config.ConfigurationBuilder;
 
@@ -40,6 +41,10 @@ public class PicketBoxConfigurer {
     @Produces
     public ConfigurationBuilder createConfiguration() {
         ConfigurationBuilder builder = new ConfigurationBuilder();
+        
+        builder.identityManager().fileStore().preserveState();
+        
+        IdentityManagerInitializer.initializeIdentityStore();
 
         return builder;
     }
