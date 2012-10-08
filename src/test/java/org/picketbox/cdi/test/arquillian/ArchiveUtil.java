@@ -33,7 +33,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.picketbox.cdi.PicketBoxExtension;
-import org.picketbox.cdi.idm.IdentityManagerInterceptor;
 
 /**
  * <p>Utility class with common methods to handle ShrinkWrap archives.</p>
@@ -92,7 +91,7 @@ public class ArchiveUtil {
     }
     
     private static Asset getBeansXml() {
-        Asset beansXml = new StringAsset("<beans><interceptors><class>" + IdentityManagerInterceptor.class.getName() + "</class></interceptors></beans>");
+        Asset beansXml = new StringAsset("<beans></beans>");
 
         return beansXml;
     }
