@@ -24,7 +24,7 @@ package org.picketbox.cdi;
 
 import org.picketbox.core.DefaultPicketBoxManager;
 import org.picketbox.core.PicketBoxManager;
-import org.picketbox.core.PicketBoxSubject;
+import org.picketbox.core.UserContext;
 import org.picketbox.core.authorization.Resource;
 import org.picketbox.core.config.PicketBoxConfiguration;
 import org.picketbox.core.event.PicketBoxEventManager;
@@ -80,9 +80,9 @@ public class PicketBoxManagerWrapper implements PicketBoxManager {
      * @param subject
      * @return
      * @throws AuthenticationException
-     * @see org.picketbox.core.PicketBoxManager#authenticate(org.picketbox.core.PicketBoxSubject)
+     * @see org.picketbox.core.PicketBoxManager#authenticate(org.picketbox.core.UserContext)
      */
-    public PicketBoxSubject authenticate(PicketBoxSubject subject) throws AuthenticationException {
+    public UserContext authenticate(UserContext subject) throws AuthenticationException {
         return delegate.authenticate(subject);
     }
 
@@ -90,18 +90,18 @@ public class PicketBoxManagerWrapper implements PicketBoxManager {
      * @param subject
      * @param resource
      * @return
-     * @see org.picketbox.core.PicketBoxManager#authorize(org.picketbox.core.PicketBoxSubject, org.picketbox.core.authorization.Resource)
+     * @see org.picketbox.core.PicketBoxManager#authorize(org.picketbox.core.UserContext, org.picketbox.core.authorization.Resource)
      */
-    public boolean authorize(PicketBoxSubject subject, Resource resource) {
+    public boolean authorize(UserContext subject, Resource resource) {
         return delegate.authorize(subject, resource);
     }
 
     /**
      * @param authenticatedUser
      * @throws IllegalStateException
-     * @see org.picketbox.core.PicketBoxManager#logout(org.picketbox.core.PicketBoxSubject)
+     * @see org.picketbox.core.PicketBoxManager#logout(org.picketbox.core.UserContext)
      */
-    public void logout(PicketBoxSubject authenticatedUser) throws IllegalStateException {
+    public void logout(UserContext authenticatedUser) throws IllegalStateException {
         delegate.logout(authenticatedUser);
     }
 

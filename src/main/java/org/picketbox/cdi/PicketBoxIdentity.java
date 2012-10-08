@@ -30,7 +30,7 @@ import javax.inject.Named;
 import org.picketbox.cdi.idm.IdentityManagerBinding;
 import org.picketbox.core.Credential;
 import org.picketbox.core.PicketBoxManager;
-import org.picketbox.core.PicketBoxSubject;
+import org.picketbox.core.UserContext;
 import org.picketbox.core.session.DefaultSessionId;
 import org.picketlink.cdi.Identity;
 import org.picketlink.cdi.authentication.AuthenticationException;
@@ -64,7 +64,7 @@ public class PicketBoxIdentity extends DefaultIdentity {
     @Inject
     private PicketBoxManager picketBoxManager;
 
-    private PicketBoxSubject subject;
+    private UserContext subject;
 
     /*
      * (non-Javadoc)
@@ -88,22 +88,22 @@ public class PicketBoxIdentity extends DefaultIdentity {
      * @throws AuthenticationException
      */
     private boolean authenticate(String sessionId) throws AuthenticationException {
-        PicketBoxCDISubject subject = null;
+        UserContext subject = null;
 
         try {
-            PicketBoxCDISubject authenticationSubject = null;
+            UserContext authenticationUserContext = null;
 
             if (sessionId != null) {
-                authenticationSubject = new PicketBoxCDISubject(new DefaultSessionId(sessionId));
+                authenticationUserContext = new UserContext(new DefaultSessionId(sessionId));
             } else {
-                authenticationSubject = new PicketBoxCDISubject();
+                authenticationUserContext = new UserContext();
             }
 
             if (sessionId == null) {
-                authenticationSubject.setCredential((Credential) this.credential.getCredential().getValue());
+                authenticationUserContext.setCredential((Credential) this.credential.getCredential().getValue());
             }
 
-            subject = (PicketBoxCDISubject) this.picketBoxManager.authenticate(authenticationSubject);
+            subject = this.picketBoxManager.authenticate(authenticationUserContext);
         } catch (Exception e) {
             this.beanManager.fireEvent(new LoginFailedEvent(e));
             throw new AuthenticationException(e.getMessage());
@@ -167,7 +167,7 @@ public class PicketBoxIdentity extends DefaultIdentity {
         return isLoggedIn() && this.subject.hasRole(restrictedRole);
     }
 
-    public PicketBoxSubject getSubject() {
+    public UserContext getUserContext() {
         return this.subject;
     }
 }
