@@ -30,6 +30,11 @@ import javax.persistence.EntityManager;
 import org.picketlink.idm.internal.jpa.JPATemplate;
 
 /**
+ * <p>
+ * Custom {@link JPATemplate} to be used during the JPA Identity Store configuration. This bean automatically inject the
+ * {@link EntityManager} instance to be used during the IDM operations.
+ * </p>
+ *
  * @author pedroigor
  *
  */
@@ -39,7 +44,9 @@ public class DefaultJPATemplate extends JPATemplate {
     @Inject
     private Instance<EntityManager> entityManager;
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see org.picketlink.idm.internal.jpa.JPATemplate#getEntityManager()
      */
     @Override
