@@ -27,7 +27,6 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.picketbox.cdi.idm.IdentityManagerBinding;
 import org.picketbox.core.Credential;
 import org.picketbox.core.PicketBoxManager;
 import org.picketbox.core.UserContext;
@@ -49,7 +48,6 @@ import org.picketlink.idm.model.User;
  *
  */
 @SessionScoped
-@IdentityManagerBinding
 @Named("identity")
 public class PicketBoxIdentity extends DefaultIdentity {
 

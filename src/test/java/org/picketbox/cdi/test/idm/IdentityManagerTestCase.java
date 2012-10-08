@@ -22,9 +22,7 @@
 
 package org.picketbox.cdi.test.idm;
 
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -39,12 +37,9 @@ import org.picketbox.core.identity.impl.EntityManagerContext;
 import org.picketlink.cdi.credential.Credential;
 import org.picketlink.cdi.credential.LoginCredentials;
 import org.picketlink.idm.IdentityManager;
-import org.picketlink.idm.internal.JPAIdentityStore;
-import org.picketlink.idm.internal.jpa.JPATemplate;
 import org.picketlink.idm.model.Group;
 import org.picketlink.idm.model.Role;
 import org.picketlink.idm.model.User;
-import org.picketlink.idm.spi.IdentityStore;
 import org.picketlink.test.idm.internal.jpa.AbstractJPAIdentityManagerTestCase;
 
 /**
@@ -143,23 +138,6 @@ public class IdentityManagerTestCase extends AbstractJPAIdentityManagerTestCase 
                 return new UsernamePasswordCredential(USER_NAME, USER_PASSWORD);
             }
         });
-    }
-
-    @Produces
-    public IdentityStore produceIdentityStore() {
-        JPAIdentityStore identityStore = (JPAIdentityStore) createIdentityStore();
-
-        JPATemplate jpaTemplate = new JPATemplate();
-
-        EntityManager entityManager = emf.createEntityManager();
-
-        entityManager.getTransaction().begin();
-
-        jpaTemplate.setEntityManager(entityManager);
-
-        identityStore.setJpaTemplate(jpaTemplate);
-
-        return identityStore;
     }
 
 }

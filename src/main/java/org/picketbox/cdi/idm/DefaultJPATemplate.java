@@ -22,46 +22,37 @@
 
 package org.picketbox.cdi.idm;
 
-import java.io.Serializable;
-
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.Interceptor;
-import javax.interceptor.InvocationContext;
 import javax.persistence.EntityManager;
 
-import org.picketbox.core.identity.impl.EntityManagerContext;
+import org.picketlink.idm.internal.jpa.JPATemplate;
 
 /**
- * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
+ * @author pedroigor
  *
  */
-@IdentityManagerBinding
-@Interceptor
-public class IdentityManagerInterceptor implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@ApplicationScoped
+public class DefaultJPATemplate extends JPATemplate {
 
     @Inject
     private Instance<EntityManager> entityManager;
 
-    @AroundInvoke
-    public Object configureEntityManager(InvocationContext invocationContext) throws Exception {
+    /* (non-Javadoc)
+     * @see org.picketlink.idm.internal.jpa.JPATemplate#getEntityManager()
+     */
+    @Override
+    protected EntityManager getEntityManager() {
         EntityManager entityManager = null;
 
         try {
             entityManager = this.entityManager.get();
-            EntityManagerContext.set(entityManager);
         } catch (Exception e) {
 
         }
 
-        Object result = invocationContext.proceed();
-
-        EntityManagerContext.clear();
-
-        return result;
+        return entityManager;
     }
 
 }
