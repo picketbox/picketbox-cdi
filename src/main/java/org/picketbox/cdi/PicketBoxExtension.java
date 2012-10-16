@@ -30,6 +30,7 @@ import javax.enterprise.inject.spi.ProcessAnnotatedType;
 import javax.enterprise.inject.spi.ProcessInjectionTarget;
 
 import org.picketlink.Identity;
+import org.picketlink.producer.IdentityManagerProducer;
 
 /**
  * <p>PicketBox CDI Extension for configuring the PicketBox security environment.</p>
@@ -59,6 +60,18 @@ public class PicketBoxExtension implements Extension {
         if (!event.getAnnotatedType().getJavaClass().equals(PicketBoxIdentity.class)) {
             event.veto();
         }
+    }
+
+    /**
+     * <p>Veto PicketLink {@link IdentityManagerProducer} bean.<p>
+     *
+     * TODO: Check if PicketLink will maintain this file. Othwerwise this method can me removed.
+     *
+     * @param event
+     * @param beanManager
+     */
+    public void installPicketBoxIdentityManagerProducer(@Observes ProcessAnnotatedType<IdentityManagerProducer> event, BeanManager beanManager) {
+        event.veto();
     }
 
     /**
