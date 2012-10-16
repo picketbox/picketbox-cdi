@@ -24,7 +24,7 @@ package org.picketbox.cdi.test.authentication;
 
 import javax.inject.Inject;
 
-import org.picketlink.cdi.Identity;
+import org.picketlink.Identity;
 import org.picketlink.idm.model.User;
 
 /**

@@ -32,9 +32,9 @@ import org.junit.Before;
 import org.picketbox.cdi.test.arquillian.AbstractArquillianTestCase;
 import org.picketbox.core.authentication.credential.UsernamePasswordCredential;
 import org.picketbox.core.authentication.event.UserAuthenticatedEvent;
-import org.picketlink.cdi.Identity;
-import org.picketlink.cdi.credential.Credential;
-import org.picketlink.cdi.credential.LoginCredentials;
+import org.picketlink.Identity;
+import org.picketlink.credential.Credential;
+import org.picketlink.credential.LoginCredentials;
 
 /**
  * <p>Base class for test cases that needs to have an authenticated user during the tests.</p>

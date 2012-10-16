@@ -29,7 +29,7 @@ import javax.interceptor.InvocationContext;
 
 import org.apache.deltaspike.security.api.authorization.annotation.Secures;
 import org.picketbox.cdi.PicketBoxIdentity;
-import org.picketlink.cdi.Identity;
+import org.picketlink.Identity;
 
 /**
  * <p>

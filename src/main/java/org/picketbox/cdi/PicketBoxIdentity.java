@@ -31,11 +31,11 @@ import org.picketbox.core.Credential;
 import org.picketbox.core.PicketBoxManager;
 import org.picketbox.core.UserContext;
 import org.picketbox.core.session.DefaultSessionId;
-import org.picketlink.cdi.Identity;
-import org.picketlink.cdi.authentication.AuthenticationException;
-import org.picketlink.cdi.authentication.event.LoginFailedEvent;
-import org.picketlink.cdi.credential.LoginCredentials;
-import org.picketlink.cdi.internal.DefaultIdentity;
+import org.picketlink.Identity;
+import org.picketlink.authentication.AuthenticationException;
+import org.picketlink.authentication.event.LoginFailedEvent;
+import org.picketlink.credential.LoginCredentials;
+import org.picketlink.internal.DefaultIdentity;
 import org.picketlink.idm.model.User;
 
 /**
