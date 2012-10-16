@@ -29,7 +29,7 @@ import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessAnnotatedType;
 import javax.enterprise.inject.spi.ProcessInjectionTarget;
 
-import org.picketlink.cdi.Identity;
+import org.picketlink.Identity;
 
 /**
  * <p>PicketBox CDI Extension for configuring the PicketBox security environment.</p>
