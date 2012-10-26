@@ -39,7 +39,7 @@ public class ProtectedService {
     public void unProtectedMethod() {
 
     }
-    
+
     @UserLoggedIn
     public void onlyForAuthenticatedUsers() {
 

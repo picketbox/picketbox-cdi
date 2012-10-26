@@ -27,16 +27,16 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.picketbox.core.Credential;
 import org.picketbox.core.PicketBoxManager;
 import org.picketbox.core.UserContext;
+import org.picketbox.core.UserCredential;
 import org.picketbox.core.session.DefaultSessionId;
 import org.picketlink.Identity;
 import org.picketlink.authentication.AuthenticationException;
 import org.picketlink.authentication.event.LoginFailedEvent;
 import org.picketlink.credential.LoginCredentials;
-import org.picketlink.internal.DefaultIdentity;
 import org.picketlink.idm.model.User;
+import org.picketlink.internal.DefaultIdentity;
 
 /**
  * <p>
@@ -98,7 +98,7 @@ public class PicketBoxIdentity extends DefaultIdentity {
             }
 
             if (sessionId == null) {
-                authenticationUserContext.setCredential((Credential) this.credential.getCredential().getValue());
+                authenticationUserContext.setCredential((UserCredential) this.credential.getCredential());
             }
 
             subject = this.picketBoxManager.authenticate(authenticationUserContext);

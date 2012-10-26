@@ -23,11 +23,12 @@
 package org.picketbox.cdi.util;
 
 import org.picketlink.idm.IdentityManager;
+import org.picketlink.idm.credential.PasswordCredential;
+import org.picketlink.idm.file.internal.FileBasedIdentityStore;
+import org.picketlink.idm.file.internal.FileUser;
 import org.picketlink.idm.internal.DefaultIdentityManager;
-import org.picketlink.idm.internal.file.FileBasedIdentityStore;
 import org.picketlink.idm.model.Group;
 import org.picketlink.idm.model.Role;
-import org.picketlink.idm.model.User;
 
 /**
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
@@ -45,13 +46,15 @@ public class IdentityManagerInitializer {
 
         IdentityManager identityManager = new DefaultIdentityManager(theStore);
 
-        User adminUser = identityManager.createUser("admin");
+        FileUser adminUser = new FileUser("admin");
+
+        identityManager.createUser(adminUser);
 
         adminUser.setEmail("admin@picketbox.com");
         adminUser.setFirstName("The");
         adminUser.setLastName("Admin");
 
-        identityManager.updatePassword(adminUser, "admin");
+        identityManager.updateCredential(adminUser, new PasswordCredential("admin"));
 
         Role roleManager = identityManager.createRole("Manager");
 

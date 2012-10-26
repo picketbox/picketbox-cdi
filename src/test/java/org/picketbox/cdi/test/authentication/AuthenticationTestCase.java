@@ -55,12 +55,12 @@ public class AuthenticationTestCase extends AbstractAuthenticationTestCase {
     @Deployment
     public static WebArchive createTestArchive() {
         WebArchive archive = ArchiveUtil.createTestArchive();
-        
+
         archive.addPackages(true, AuthenticationTestCase.class.getPackage());
-        
+
         return archive;
     }
-    
+
     /**
      * <p>Tests a successful authentication.</p>
      *

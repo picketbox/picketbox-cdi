@@ -49,7 +49,7 @@ public class CDIAuthenticationEventManager implements PicketBoxEventManager {
      */
     @Override
     public void raiseEvent(PicketBoxEvent<? extends PicketBoxEventHandler> event) {
-        beanManager.fireEvent(event);
+        this.beanManager.fireEvent(event);
     }
 
     /* (non-Javadoc)

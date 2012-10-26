@@ -36,7 +36,7 @@ import org.picketbox.cdi.PicketBoxExtension;
 
 /**
  * <p>Utility class with common methods to handle ShrinkWrap archives.</p>
- * 
+ *
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
  */
@@ -89,11 +89,11 @@ public class ArchiveUtil {
 
         return archive;
     }
-    
+
     private static Asset getBeansXml() {
         Asset beansXml = new StringAsset("<beans></beans>");
 
         return beansXml;
     }
-    
+
 }

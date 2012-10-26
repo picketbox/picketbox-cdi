@@ -41,39 +41,43 @@ public class PicketBoxManagerWrapper implements PicketBoxManager {
     private PicketBoxManager delegate;
 
     public PicketBoxManagerWrapper(PicketBoxConfiguration configuration) {
-        delegate = new DefaultPicketBoxManager(configuration);
+        this.delegate = new DefaultPicketBoxManager(configuration);
     }
 
     /**
      * @return
      * @see org.picketbox.core.PicketBoxLifecycle#started()
      */
+    @Override
     public boolean started() {
-        return delegate.started();
+        return this.delegate.started();
     }
 
     /**
      *
      * @see org.picketbox.core.PicketBoxLifecycle#start()
      */
+    @Override
     public void start() {
-        delegate.start();
+        this.delegate.start();
     }
 
     /**
      * @return
      * @see org.picketbox.core.PicketBoxLifecycle#stopped()
      */
+    @Override
     public boolean stopped() {
-        return delegate.stopped();
+        return this.delegate.stopped();
     }
 
     /**
      *
      * @see org.picketbox.core.PicketBoxLifecycle#stop()
      */
+    @Override
     public void stop() {
-        delegate.stop();
+        this.delegate.stop();
     }
 
     /**
@@ -82,8 +86,9 @@ public class PicketBoxManagerWrapper implements PicketBoxManager {
      * @throws AuthenticationException
      * @see org.picketbox.core.PicketBoxManager#authenticate(org.picketbox.core.UserContext)
      */
+    @Override
     public UserContext authenticate(UserContext subject) throws AuthenticationException {
-        return delegate.authenticate(subject);
+        return this.delegate.authenticate(subject);
     }
 
     /**
@@ -92,8 +97,9 @@ public class PicketBoxManagerWrapper implements PicketBoxManager {
      * @return
      * @see org.picketbox.core.PicketBoxManager#authorize(org.picketbox.core.UserContext, org.picketbox.core.authorization.Resource)
      */
+    @Override
     public boolean authorize(UserContext subject, Resource resource) {
-        return delegate.authorize(subject, resource);
+        return this.delegate.authorize(subject, resource);
     }
 
     /**
@@ -101,8 +107,9 @@ public class PicketBoxManagerWrapper implements PicketBoxManager {
      * @throws IllegalStateException
      * @see org.picketbox.core.PicketBoxManager#logout(org.picketbox.core.UserContext)
      */
+    @Override
     public void logout(UserContext authenticatedUser) throws IllegalStateException {
-        delegate.logout(authenticatedUser);
+        this.delegate.logout(authenticatedUser);
     }
 
     @Override

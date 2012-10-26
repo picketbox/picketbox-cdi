@@ -41,9 +41,9 @@ public class PicketBoxConfigurer {
     @Produces
     public ConfigurationBuilder createConfiguration() {
         ConfigurationBuilder builder = new ConfigurationBuilder();
-        
+
         builder.identityManager().fileStore().preserveState();
-        
+
         // initialize the file-based store with some test data
         IdentityManagerInitializer.initializeIdentityStore();
 

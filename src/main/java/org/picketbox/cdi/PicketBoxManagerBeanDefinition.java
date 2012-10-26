@@ -103,7 +103,7 @@ public class PicketBoxManagerBeanDefinition implements Bean<PicketBoxManager> {
 
         Bean<ConfigurationBuilder> bean = (Bean<ConfigurationBuilder>) beans.iterator().next();
 
-        CreationalContext<ConfigurationBuilder> createCreationalContext = beanManager.createCreationalContext(bean);
+        CreationalContext<ConfigurationBuilder> createCreationalContext = this.beanManager.createCreationalContext(bean);
 
         return bean.create(createCreationalContext);
     }
@@ -115,9 +115,9 @@ public class PicketBoxManagerBeanDefinition implements Bean<PicketBoxManager> {
      */
     @Override
     public void destroy(PicketBoxManager instance, CreationalContext<PicketBoxManager> creationalContext) {
-        injectionTarget.preDestroy(instance);
+        this.injectionTarget.preDestroy(instance);
         instance.stop();
-        injectionTarget.dispose(instance);
+        this.injectionTarget.dispose(instance);
     }
 
     /*
@@ -220,7 +220,7 @@ public class PicketBoxManagerBeanDefinition implements Bean<PicketBoxManager> {
      */
     @Override
     public Set<InjectionPoint> getInjectionPoints() {
-        return injectionTarget.getInjectionPoints();
+        return this.injectionTarget.getInjectionPoints();
     }
 
 }
