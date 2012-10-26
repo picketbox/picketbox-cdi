@@ -63,31 +63,27 @@ public class ArchiveUtil {
                                 JavaArchive.class,
                                 DependencyResolvers.use(MavenDependencyResolver.class)
                                         .loadMetadataFromPom("pom.xml")
-                                        .configureFrom("src/test/resources/settings.xml")
-                                        .artifact("org.apache.deltaspike.modules:deltaspike-security-module-impl")
+                                        .artifact("org.apache.deltaspike.modules:deltaspike-security-module-impl").goOffline()
                                         .resolveAsFiles()[0]))
                 .addAsLibraries(
                         ShrinkWrap.createFromZipFile(
                                 JavaArchive.class,
                                 DependencyResolvers.use(MavenDependencyResolver.class)
                                         .loadMetadataFromPom("pom.xml")
-                                        .configureFrom("src/test/resources/settings.xml")
-                                        .artifact("org.picketlink:picketlink-core-impl")
+                                        .artifact("org.picketlink:picketlink-core-impl").goOffline()
                                         .resolveAsFiles()[0]))
                 .addAsLibraries(
                         ShrinkWrap.createFromZipFile(
                                 JavaArchive.class,
                                 DependencyResolvers.use(MavenDependencyResolver.class)
                                         .loadMetadataFromPom("pom.xml")
-                                        .configureFrom("src/test/resources/settings.xml")
-                                        .artifact("org.picketlink:picketlink-core-api")
+                                        .artifact("org.picketlink:picketlink-core-api").goOffline()
                                         .resolveAsFiles()[0]))
                 .addAsLibraries(
                         ShrinkWrap.createFromZipFile(
                                 JavaArchive.class,
                                 DependencyResolvers.use(MavenDependencyResolver.class).goOffline()
                                         .loadMetadataFromPom("pom.xml")
-                                        .configureFrom("src/test/resources/settings.xml")
                                         .artifact("org.picketbox:picketbox-core")
                                         .resolveAsFiles()[0]));
 
