@@ -63,6 +63,7 @@ public class ArchiveUtil {
                                 JavaArchive.class,
                                 DependencyResolvers.use(MavenDependencyResolver.class)
                                         .loadMetadataFromPom("pom.xml")
+                                        .configureFrom("src/test/resources/settings.xml")
                                         .artifact("org.apache.deltaspike.modules:deltaspike-security-module-impl")
                                         .resolveAsFiles()[0]))
                 .addAsLibraries(
@@ -70,6 +71,7 @@ public class ArchiveUtil {
                                 JavaArchive.class,
                                 DependencyResolvers.use(MavenDependencyResolver.class)
                                         .loadMetadataFromPom("pom.xml")
+                                        .configureFrom("src/test/resources/settings.xml")
                                         .artifact("org.picketlink:picketlink-core-impl")
                                         .resolveAsFiles()[0]))
                 .addAsLibraries(
@@ -77,6 +79,7 @@ public class ArchiveUtil {
                                 JavaArchive.class,
                                 DependencyResolvers.use(MavenDependencyResolver.class)
                                         .loadMetadataFromPom("pom.xml")
+                                        .configureFrom("src/test/resources/settings.xml")
                                         .artifact("org.picketlink:picketlink-core-api")
                                         .resolveAsFiles()[0]))
                 .addAsLibraries(
@@ -84,6 +87,7 @@ public class ArchiveUtil {
                                 JavaArchive.class,
                                 DependencyResolvers.use(MavenDependencyResolver.class).goOffline()
                                         .loadMetadataFromPom("pom.xml")
+                                        .configureFrom("src/test/resources/settings.xml")
                                         .artifact("org.picketbox:picketbox-core")
                                         .resolveAsFiles()[0]));
 
