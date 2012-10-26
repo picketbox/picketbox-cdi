@@ -34,13 +34,13 @@ import org.picketbox.cdi.PicketBoxIdentity;
 import org.picketbox.cdi.test.arquillian.ArchiveUtil;
 import org.picketbox.core.authentication.credential.UsernamePasswordCredential;
 import org.picketbox.core.identity.impl.EntityManagerContext;
-import org.picketlink.credential.Credential;
 import org.picketlink.credential.LoginCredentials;
 import org.picketlink.idm.IdentityManager;
+import org.picketlink.idm.credential.PasswordCredential;
+import org.picketlink.idm.jpa.schema.DatabaseUser;
 import org.picketlink.idm.model.Group;
 import org.picketlink.idm.model.Role;
-import org.picketlink.idm.model.User;
-import org.picketlink.test.idm.internal.jpa.AbstractJPAIdentityManagerTestCase;
+import org.picketlink.test.idm.jpa.schema.AbstractJPAIdentityManagerTestCase;
 
 /**
  * <p>Test for the PicketLink IDM support.</p>
@@ -62,19 +62,19 @@ public class IdentityManagerTestCase extends AbstractJPAIdentityManagerTestCase 
 
     @Inject
     private IdentityManager identityManager;
-    
+
     @Override
     public void onSetupTest() throws Exception {
         super.onSetupTest();
         EntityManagerContext.set(this.entityManager);
     }
-    
+
     @Override
     public void onFinishTest() throws Exception {
         super.onFinishTest();
         EntityManagerContext.clear();
     }
-    
+
     /**
      * <p>
      * Creates a simple {@link WebArchive} for deployment with the necessary structure/configuration to run the tests.
@@ -98,30 +98,32 @@ public class IdentityManagerTestCase extends AbstractJPAIdentityManagerTestCase 
      */
     @Test
     public void testAuthentication() throws Exception {
-        User abstractj = this.identityManager.createUser("pedroigor");
+        DatabaseUser pedroigor = new DatabaseUser("pedroigor");
 
-        abstractj.setEmail("pedroigor@picketbox.com");
-        abstractj.setFirstName("Pedro");
-        abstractj.setLastName("Igor");
-        
-        this.identityManager.updatePassword(abstractj, "123");
-        
+        this.identityManager.createUser(pedroigor);
+
+        pedroigor.setEmail("pedroigor@picketbox.com");
+        pedroigor.setFirstName("Pedro");
+        pedroigor.setLastName("Igor");
+
+        this.identityManager.updateCredential(pedroigor, new PasswordCredential("123"));
+
         Role roleDeveloper = this.identityManager.createRole("developer");
         Role roleAdmin = this.identityManager.createRole("admin");
 
-        Group groupCoreDeveloper = identityManager.createGroup("PicketBox Group");
+        Group groupCoreDeveloper = this.identityManager.createGroup("PicketBox Group");
 
-        this.identityManager.grantRole(roleDeveloper, abstractj, groupCoreDeveloper);
-        this.identityManager.grantRole(roleAdmin, abstractj, groupCoreDeveloper);
-        
+        this.identityManager.grantRole(roleDeveloper, pedroigor, groupCoreDeveloper);
+        this.identityManager.grantRole(roleAdmin, pedroigor, groupCoreDeveloper);
+
         populateUserCredential();
 
         this.identity.login();
 
         Assert.assertTrue(this.identity.isLoggedIn());
 
-        Assert.assertTrue(identity.hasRole("developer"));
-        Assert.assertTrue(identity.hasRole("admin"));
+        Assert.assertTrue(this.identity.hasRole("developer"));
+        Assert.assertTrue(this.identity.hasRole("admin"));
     }
 
     /**
@@ -130,14 +132,8 @@ public class IdentityManagerTestCase extends AbstractJPAIdentityManagerTestCase 
      * </p>
      */
     private void populateUserCredential() {
-        credential.setUserId(USER_NAME);
-        credential.setCredential(new Credential<UsernamePasswordCredential>() {
-
-            @Override
-            public UsernamePasswordCredential getValue() {
-                return new UsernamePasswordCredential(USER_NAME, USER_PASSWORD);
-            }
-        });
+        this.credential.setUserId(USER_NAME);
+        this.credential.setCredential(new UsernamePasswordCredential(USER_NAME, USER_PASSWORD));
     }
 
 }

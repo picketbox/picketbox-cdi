@@ -56,12 +56,12 @@ public class AuthorizationTestCase extends AbstractAuthenticationTestCase {
     @Deployment
     public static WebArchive createTestArchive() {
         WebArchive archive = ArchiveUtil.createTestArchive();
-        
+
         archive.addPackages(true, AuthorizationTestCase.class.getPackage());
-        
+
         return archive;
     }
-    
+
     /**
      * <p>
      * Tests if an invocation for a unprotected method is allowed.
@@ -89,7 +89,7 @@ public class AuthorizationTestCase extends AbstractAuthenticationTestCase {
     public void testFailedAuthorization() {
         this.protectedService.onlyForExecutives();
     }
-    
+
     /**
      * <p>Tests if an invocation for a protected method is denied, considering that the user is not authenticated.</p>
      */

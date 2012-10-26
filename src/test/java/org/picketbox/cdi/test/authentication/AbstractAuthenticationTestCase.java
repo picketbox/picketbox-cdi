@@ -33,8 +33,8 @@ import org.picketbox.cdi.test.arquillian.AbstractArquillianTestCase;
 import org.picketbox.core.authentication.credential.UsernamePasswordCredential;
 import org.picketbox.core.authentication.event.UserAuthenticatedEvent;
 import org.picketlink.Identity;
-import org.picketlink.credential.Credential;
 import org.picketlink.credential.LoginCredentials;
+import org.picketlink.idm.credential.PasswordCredential;
 
 /**
  * <p>Base class for test cases that needs to have an authenticated user during the tests.</p>
@@ -52,7 +52,7 @@ public abstract class AbstractAuthenticationTestCase extends AbstractArquillianT
 
     @Inject
     protected LoginCredentials credential;
-    
+
     /**
      * <p>Authenticates the user</p>
      *
@@ -80,14 +80,8 @@ public abstract class AbstractAuthenticationTestCase extends AbstractArquillianT
      * </p>
      */
     private void populateUserCredential() {
-        credential.setUserId(USER_NAME);
-        credential.setCredential(new Credential<UsernamePasswordCredential>() {
-
-            @Override
-            public UsernamePasswordCredential getValue() {
-                return new UsernamePasswordCredential(USER_NAME, USER_PASSWORD);
-            }
-        });
+        this.credential.setUserId(USER_NAME);
+        this.credential.setCredential(new UsernamePasswordCredential(USER_NAME, USER_PASSWORD));
     }
 
     public void onSuccessfullAuthentication(@Observes UserAuthenticatedEvent event) {

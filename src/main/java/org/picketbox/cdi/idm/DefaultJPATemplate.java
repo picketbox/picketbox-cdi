@@ -27,7 +27,7 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import org.picketlink.idm.internal.jpa.JPATemplate;
+import org.picketlink.idm.jpa.schema.internal.JPATemplate;
 
 /**
  * <p>
@@ -49,6 +49,7 @@ public class DefaultJPATemplate extends JPATemplate {
      *
      * @see org.picketlink.idm.internal.jpa.JPATemplate#getEntityManager()
      */
+    @Override
     protected EntityManager getEntityManager() {
         EntityManager entityManager = null;
 

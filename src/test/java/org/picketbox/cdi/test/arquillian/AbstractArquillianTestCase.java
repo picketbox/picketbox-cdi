@@ -36,5 +36,5 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public abstract class AbstractArquillianTestCase {
 
-    
+
 }
