@@ -31,7 +31,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.picketbox.cdi.test.arquillian.AbstractArquillianTestCase;
 import org.picketbox.core.authentication.credential.UsernamePasswordCredential;
-import org.picketbox.core.authentication.event.UserAuthenticatedEvent;
+import org.picketbox.core.authentication.event.UserAuthenticationEvent;
 import org.picketlink.Identity;
 import org.picketlink.credential.LoginCredentials;
 import org.picketlink.idm.credential.PasswordCredential;
@@ -84,7 +84,7 @@ public abstract class AbstractAuthenticationTestCase extends AbstractArquillianT
         this.credential.setCredential(new UsernamePasswordCredential(USER_NAME, USER_PASSWORD));
     }
 
-    public void onSuccessfullAuthentication(@Observes UserAuthenticatedEvent event) {
+    public void onSuccessfullAuthentication(@Observes UserAuthenticationEvent event) {
 
     }
 }
