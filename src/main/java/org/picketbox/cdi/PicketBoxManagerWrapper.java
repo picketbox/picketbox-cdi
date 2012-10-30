@@ -25,6 +25,7 @@ package org.picketbox.cdi;
 import org.picketbox.core.DefaultPicketBoxManager;
 import org.picketbox.core.PicketBoxManager;
 import org.picketbox.core.UserContext;
+import org.picketbox.core.audit.AuditProvider;
 import org.picketbox.core.authorization.Resource;
 import org.picketbox.core.config.PicketBoxConfiguration;
 import org.picketbox.core.event.PicketBoxEventManager;
@@ -130,5 +131,10 @@ public class PicketBoxManagerWrapper implements PicketBoxManager {
     @Override
     public SessionManager getSessionManager() {
         return this.delegate.getSessionManager();
+    }
+
+    @Override
+    public AuditProvider getAuditProvider() {
+        return this.delegate.getAuditProvider();
     }
 }
