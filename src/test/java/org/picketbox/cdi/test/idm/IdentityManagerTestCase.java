@@ -33,7 +33,7 @@ import org.junit.runner.RunWith;
 import org.picketbox.cdi.PicketBoxIdentity;
 import org.picketbox.cdi.test.arquillian.ArchiveUtil;
 import org.picketbox.core.authentication.credential.UsernamePasswordCredential;
-import org.picketbox.core.identity.impl.EntityManagerContext;
+import org.picketbox.core.identity.impl.JPAIdentityStoreContext;
 import org.picketlink.credential.LoginCredentials;
 import org.picketlink.idm.IdentityManager;
 import org.picketlink.idm.credential.PasswordCredential;
@@ -66,13 +66,13 @@ public class IdentityManagerTestCase extends AbstractJPAIdentityManagerTestCase 
     @Override
     public void onSetupTest() throws Exception {
         super.onSetupTest();
-        EntityManagerContext.set(this.entityManager);
+        JPAIdentityStoreContext.set(this.entityManager);
     }
 
     @Override
     public void onFinishTest() throws Exception {
         super.onFinishTest();
-        EntityManagerContext.clear();
+        JPAIdentityStoreContext.clear();
     }
 
     /**
