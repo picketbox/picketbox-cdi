@@ -56,6 +56,7 @@ public class PicketBoxManagerBeanDefinition implements Bean<PicketBoxManager> {
     private BeanManager beanManager;
     private InjectionTarget<PicketBoxManager> injectionTarget;
 
+    @SuppressWarnings("unchecked")
     public PicketBoxManagerBeanDefinition(BeanManager beanManager) {
         this.beanManager = beanManager;
         AnnotatedType<? extends PicketBoxManager> at = beanManager.createAnnotatedType(PicketBoxManagerWrapper.class);

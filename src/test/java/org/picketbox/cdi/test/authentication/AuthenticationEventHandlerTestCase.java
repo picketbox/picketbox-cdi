@@ -30,7 +30,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.picketbox.cdi.test.arquillian.ArchiveUtil;
-import org.picketlink.idm.model.User;
 
 /**
  * <p>
@@ -40,10 +39,10 @@ import org.picketlink.idm.model.User;
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
  */
-public class AuthenticationTestCase extends AbstractAuthenticationTestCase {
+public class AuthenticationEventHandlerTestCase extends AbstractAuthenticationTestCase {
 
     @Inject
-    private WhoAmIService whoAmIService;
+    private AuthenticationEventHandler eventHandler;
     
     /**
      * <p>
@@ -56,7 +55,7 @@ public class AuthenticationTestCase extends AbstractAuthenticationTestCase {
     public static WebArchive createTestArchive() {
         WebArchive archive = ArchiveUtil.createTestArchive();
 
-        archive.addPackages(true, AuthenticationTestCase.class.getPackage());
+        archive.addPackages(true, AuthenticationEventHandlerTestCase.class.getPackage());
 
         return archive;
     }
@@ -68,10 +67,7 @@ public class AuthenticationTestCase extends AbstractAuthenticationTestCase {
      */
     @Test
     public void testSuccessfullAuthentication() throws Exception {
-        User user = this.whoAmIService.whoAmI();
-
-        Assert.assertNotNull(user);
-        Assert.assertEquals(USER_NAME, user.getId());
+        Assert.assertTrue(eventHandler.isSuccessfulAuthentication());
     }
 
 }
