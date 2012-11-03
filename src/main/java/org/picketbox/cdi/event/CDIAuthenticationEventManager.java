@@ -25,8 +25,6 @@ package org.picketbox.cdi.event;
 import javax.enterprise.inject.Typed;
 import javax.enterprise.inject.spi.BeanManager;
 
-import org.picketbox.core.event.PicketBoxEvent;
-import org.picketbox.core.event.PicketBoxEventHandler;
 import org.picketbox.core.event.PicketBoxEventManager;
 
 /**
@@ -48,7 +46,7 @@ public class CDIAuthenticationEventManager implements PicketBoxEventManager {
      * @see org.picketbox.core.authentication.AuthenticationEventManager#raiseEvent(org.picketbox.core.authentication.event.AuthenticationEvent)
      */
     @Override
-    public void raiseEvent(PicketBoxEvent<? extends PicketBoxEventHandler> event) {
+    public void raiseEvent(Object event) {
         this.beanManager.fireEvent(event);
     }
 
@@ -56,7 +54,7 @@ public class CDIAuthenticationEventManager implements PicketBoxEventManager {
      * @see org.picketbox.core.event.PicketBoxEventManager#addHandler(org.picketbox.core.event.PicketBoxEventHandler)
      */
     @Override
-    public void addHandler(PicketBoxEventHandler handler) {
+    public void addHandler(Object handler) {
     }
 
 }
