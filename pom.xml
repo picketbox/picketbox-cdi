@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.picketbox</groupId>
 		<artifactId>picketbox-core-parent</artifactId>
-		<version>5.0.0-2012Nov21</version>
+		<version>5.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>picketbox-cdi</artifactId>
 	<packaging>jar</packaging>
@@ -24,7 +24,7 @@
 		<url>http://www.jboss.org</url>
 	</organization>
 	<properties>
-		<picketbox.core.version>5.0.0-2012Nov21</picketbox.core.version>
+		<picketbox.core.version>5.0.0-SNAPSHOT</picketbox.core.version>
 		<picketlink.core.version>3.0-2012Nov21</picketlink.core.version>
 		<picketlink.idm.version>3.0-2012Nov21</picketlink.idm.version>
 		<deltaspike.version>0.3-incubating</deltaspike.version>
