@@ -46,7 +46,7 @@ public class AuthenticationEventHandler {
     public void onUnSuccessfulAuthentication(@Observes UserNotAuthenticatedEvent userAuthenticatedEvent) {
         this.successfulAuthentication = false;
     }
-    
+
     public void onUnSuccessfulAuthentication(@Observes UserAuthenticationFailedEvent userAuthenticatedEvent) {
         this.authenticationFailed = false;
     }
@@ -54,9 +54,9 @@ public class AuthenticationEventHandler {
     public boolean isSuccessfulAuthentication() {
         return this.successfulAuthentication;
     }
-    
+
     public boolean isAuthenticationFailed() {
         return this.authenticationFailed;
     }
-    
+
 }

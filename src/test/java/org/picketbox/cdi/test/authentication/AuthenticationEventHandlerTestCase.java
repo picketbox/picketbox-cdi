@@ -43,7 +43,7 @@ public class AuthenticationEventHandlerTestCase extends AbstractAuthenticationTe
 
     @Inject
     private AuthenticationEventHandler eventHandler;
-    
+
     /**
      * <p>
      * Creates a simple {@link WebArchive} for deployment with the necessary structure/configuration to run the tests.
@@ -67,7 +67,7 @@ public class AuthenticationEventHandlerTestCase extends AbstractAuthenticationTe
      */
     @Test
     public void testSuccessfullAuthentication() throws Exception {
-        Assert.assertTrue(eventHandler.isSuccessfulAuthentication());
+        Assert.assertTrue(this.eventHandler.isSuccessfulAuthentication());
     }
 
 }

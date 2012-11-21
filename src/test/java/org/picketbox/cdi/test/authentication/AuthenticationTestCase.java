@@ -44,7 +44,7 @@ public class AuthenticationTestCase extends AbstractAuthenticationTestCase {
 
     @Inject
     private WhoAmIService whoAmIService;
-    
+
     /**
      * <p>
      * Creates a simple {@link WebArchive} for deployment with the necessary structure/configuration to run the tests.
