@@ -23,24 +23,30 @@
 package org.picketbox.cdi.test.idm;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.picketbox.cdi.LoginCredential;
 import org.picketbox.cdi.PicketBoxIdentity;
 import org.picketbox.cdi.test.arquillian.ArchiveUtil;
 import org.picketbox.core.authentication.credential.UsernamePasswordCredential;
 import org.picketbox.core.identity.impl.JPAIdentityStoreContext;
-import org.picketlink.credential.LoginCredentials;
 import org.picketlink.idm.IdentityManager;
-import org.picketlink.idm.credential.PasswordCredential;
-import org.picketlink.idm.jpa.schema.DatabaseUser;
+import org.picketlink.idm.credential.PlainTextPassword;
 import org.picketlink.idm.model.Group;
 import org.picketlink.idm.model.Role;
-import org.picketlink.test.idm.jpa.schema.AbstractJPAIdentityManagerTestCase;
+import org.picketlink.idm.model.SimpleGroup;
+import org.picketlink.idm.model.SimpleRole;
+import org.picketlink.idm.model.SimpleUser;
 
 /**
  * <p>Test for the PicketLink IDM support.</p>
@@ -49,8 +55,10 @@ import org.picketlink.test.idm.jpa.schema.AbstractJPAIdentityManagerTestCase;
  *
  */
 @RunWith(Arquillian.class)
-public class IdentityManagerTestCase extends AbstractJPAIdentityManagerTestCase {
-
+public class IdentityManagerTestCase {
+    
+    private EntityManagerFactory entityManagerFactory;
+    
     protected static final String USER_NAME = "pedroigor";
     protected static final String USER_PASSWORD = "123";
 
@@ -58,21 +66,32 @@ public class IdentityManagerTestCase extends AbstractJPAIdentityManagerTestCase 
     private PicketBoxIdentity identity;
 
     @Inject
-    private LoginCredentials credential;
+    private LoginCredential credential;
 
     @Inject
     private IdentityManager identityManager;
 
-    @Override
-    public void onSetupTest() throws Exception {
-        super.onSetupTest();
-        JPAIdentityStoreContext.set(this.entityManager);
+    @Before
+    public void onSetup() throws Exception {
+        this.entityManagerFactory = Persistence.createEntityManagerFactory("picketbox-testing-pu");
+
+        EntityManager entityManager = this.entityManagerFactory.createEntityManager();
+
+        entityManager.getTransaction().begin();
+
+        JPAIdentityStoreContext.set(entityManager);
     }
 
-    @Override
-    public void onFinishTest() throws Exception {
-        super.onFinishTest();
+    @After
+    public void onFinish() throws Exception {
+        EntityManager entityManager = JPAIdentityStoreContext.get();
+
+        entityManager.flush();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+
         JPAIdentityStoreContext.clear();
+        this.entityManagerFactory.close();
     }
 
     /**
@@ -98,23 +117,32 @@ public class IdentityManagerTestCase extends AbstractJPAIdentityManagerTestCase 
      */
     @Test
     public void testAuthentication() throws Exception {
-        DatabaseUser pedroigor = new DatabaseUser("pedroigor");
+        SimpleUser pedroigor = new SimpleUser("pedroigor");
 
-        this.identityManager.createUser(pedroigor);
+        this.identityManager.add(pedroigor);
 
         pedroigor.setEmail("pedroigor@picketbox.com");
         pedroigor.setFirstName("Pedro");
         pedroigor.setLastName("Igor");
 
-        this.identityManager.updateCredential(pedroigor, new PasswordCredential("123"));
+        this.identityManager.updateCredential(pedroigor, new PlainTextPassword("123".toCharArray()));
 
-        Role roleDeveloper = this.identityManager.createRole("developer");
-        Role roleAdmin = this.identityManager.createRole("admin");
+        Role roleDeveloper = new SimpleRole("developer");
+        
+        identityManager.add(roleDeveloper);
+        
+        Role roleAdmin = new SimpleRole("admin");
+        
+        this.identityManager.add(roleAdmin);
 
-        Group groupCoreDeveloper = this.identityManager.createGroup("PicketBox Group");
+        Group groupCoreDeveloper = new SimpleGroup("PicketBox Group");
+        
+        this.identityManager.add(groupCoreDeveloper);
 
-        this.identityManager.grantRole(roleDeveloper, pedroigor, groupCoreDeveloper);
-        this.identityManager.grantRole(roleAdmin, pedroigor, groupCoreDeveloper);
+        this.identityManager.grantRole(pedroigor, roleDeveloper);
+        this.identityManager.grantRole(pedroigor, roleAdmin);
+        
+        this.identityManager.addToGroup(pedroigor, groupCoreDeveloper);
 
         populateUserCredential();
 
@@ -132,7 +160,6 @@ public class IdentityManagerTestCase extends AbstractJPAIdentityManagerTestCase 
      * </p>
      */
     private void populateUserCredential() {
-        this.credential.setUserId(USER_NAME);
         this.credential.setCredential(new UsernamePasswordCredential(USER_NAME, USER_PASSWORD));
     }
 

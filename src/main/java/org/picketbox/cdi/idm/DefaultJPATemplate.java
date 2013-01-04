@@ -50,7 +50,7 @@ public class DefaultJPATemplate extends JPATemplate {
      * @see org.picketlink.idm.internal.jpa.JPATemplate#getEntityManager()
      */
     @Override
-    protected EntityManager getEntityManager() {
+    public EntityManager getEntityManager() {
         EntityManager entityManager = null;
 
         try {

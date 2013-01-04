@@ -23,12 +23,12 @@
 package org.picketbox.cdi.util;
 
 import org.picketlink.idm.IdentityManager;
-import org.picketlink.idm.credential.PasswordCredential;
-import org.picketlink.idm.file.internal.FileBasedIdentityStore;
-import org.picketlink.idm.file.internal.FileUser;
-import org.picketlink.idm.internal.DefaultIdentityManager;
+import org.picketlink.idm.credential.PlainTextPassword;
 import org.picketlink.idm.model.Group;
 import org.picketlink.idm.model.Role;
+import org.picketlink.idm.model.SimpleGroup;
+import org.picketlink.idm.model.SimpleRole;
+import org.picketlink.idm.model.SimpleUser;
 
 /**
  * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
@@ -38,29 +38,29 @@ public class IdentityManagerInitializer {
 
     /**
      * <p>Initializes the store with some test data.</p>
+     * @param identityManager
      */
-    public static void initializeIdentityStore() {
-        FileBasedIdentityStore theStore = new FileBasedIdentityStore();
+    public static void initializeIdentityStore(IdentityManager identityManager) {
+        SimpleUser adminUser = new SimpleUser("admin");
 
-        theStore.setAlwaysCreateFiles(false);
-
-        IdentityManager identityManager = new DefaultIdentityManager(theStore);
-
-        FileUser adminUser = new FileUser("admin");
-
-        identityManager.createUser(adminUser);
+        identityManager.add(adminUser);
 
         adminUser.setEmail("admin@picketbox.com");
         adminUser.setFirstName("The");
         adminUser.setLastName("Admin");
 
-        identityManager.updateCredential(adminUser, new PasswordCredential("admin"));
+        identityManager.updateCredential(adminUser, new PlainTextPassword("admin".toCharArray()));
 
-        Role roleManager = identityManager.createRole("Manager");
+        Role roleManager = new SimpleRole("Manager");
 
-        Group groupCoreDeveloper = identityManager.createGroup("PicketBox Group");
+        identityManager.add(roleManager);
 
-        identityManager.grantRole(roleManager, adminUser, groupCoreDeveloper);
+        Group groupPicketBox = new SimpleGroup("PicketBox Group");
+
+        identityManager.add(groupPicketBox);
+
+        identityManager.grantRole(adminUser, roleManager);
+        identityManager.addToGroup(adminUser, groupPicketBox);
     }
 
 }
