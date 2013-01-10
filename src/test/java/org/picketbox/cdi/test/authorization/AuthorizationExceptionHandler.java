@@ -20,46 +20,26 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.picketbox.cdi.idm;
+package org.picketbox.cdi.test.authorization;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
-import org.picketlink.idm.jpa.schema.internal.JPATemplate;
+import org.apache.deltaspike.core.api.exception.control.annotation.ExceptionHandler;
+import org.apache.deltaspike.core.api.exception.control.annotation.Handles;
+import org.apache.deltaspike.core.api.exception.control.event.ExceptionEvent;
 
 /**
- * <p>
- * Custom {@link JPATemplate} to be used during the JPA Identity Store configuration. This bean automatically inject the
- * {@link EntityManager} instance to be used during the IDM operations.
- * </p>
- *
- * @author pedroigor
+ * @author <a href="mailto:psilva@redhat.com">Pedro Silva</a>
  *
  */
 @ApplicationScoped
-public class DefaultJPATemplate extends JPATemplate {
+@ExceptionHandler
+public class AuthorizationExceptionHandler {
 
-    @Inject
-    private Instance<EntityManager> entityManager;
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.picketlink.idm.internal.jpa.JPATemplate#getEntityManager()
-     */
-    @Override
-    public EntityManager getEntityManager() {
-        EntityManager entityManager = null;
-
-        try {
-            entityManager = this.entityManager.get();
-        } catch (Exception e) {
-
-        }
-
-        return entityManager;
-    }
-
+    public void handleException(@Handles ExceptionEvent<Throwable> evt) {
+        System.out.println(evt.getException());
+    }    
+    
 }

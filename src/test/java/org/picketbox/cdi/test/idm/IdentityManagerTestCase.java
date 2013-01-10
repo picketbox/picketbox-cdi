@@ -39,9 +39,9 @@ import org.picketbox.cdi.LoginCredential;
 import org.picketbox.cdi.PicketBoxIdentity;
 import org.picketbox.cdi.test.arquillian.ArchiveUtil;
 import org.picketbox.core.authentication.credential.UsernamePasswordCredential;
-import org.picketbox.core.identity.impl.JPAIdentityStoreContext;
+import org.picketbox.core.identity.jpa.EntityManagerPropagationContext;
 import org.picketlink.idm.IdentityManager;
-import org.picketlink.idm.credential.PlainTextPassword;
+import org.picketlink.idm.credential.Password;
 import org.picketlink.idm.model.Group;
 import org.picketlink.idm.model.Role;
 import org.picketlink.idm.model.SimpleGroup;
@@ -79,18 +79,18 @@ public class IdentityManagerTestCase {
 
         entityManager.getTransaction().begin();
 
-        JPAIdentityStoreContext.set(entityManager);
+        EntityManagerPropagationContext.set(entityManager);
     }
 
     @After
     public void onFinish() throws Exception {
-        EntityManager entityManager = JPAIdentityStoreContext.get();
+        EntityManager entityManager = EntityManagerPropagationContext.get();
 
         entityManager.flush();
         entityManager.getTransaction().commit();
         entityManager.close();
 
-        JPAIdentityStoreContext.clear();
+        EntityManagerPropagationContext.clear();
         this.entityManagerFactory.close();
     }
 
@@ -125,7 +125,7 @@ public class IdentityManagerTestCase {
         pedroigor.setFirstName("Pedro");
         pedroigor.setLastName("Igor");
 
-        this.identityManager.updateCredential(pedroigor, new PlainTextPassword("123".toCharArray()));
+        this.identityManager.updateCredential(pedroigor, new Password("123".toCharArray()));
 
         Role roleDeveloper = new SimpleRole("developer");
         

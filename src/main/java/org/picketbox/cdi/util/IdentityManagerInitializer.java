@@ -23,7 +23,7 @@
 package org.picketbox.cdi.util;
 
 import org.picketlink.idm.IdentityManager;
-import org.picketlink.idm.credential.PlainTextPassword;
+import org.picketlink.idm.credential.Password;
 import org.picketlink.idm.model.Group;
 import org.picketlink.idm.model.Role;
 import org.picketlink.idm.model.SimpleGroup;
@@ -49,7 +49,7 @@ public class IdentityManagerInitializer {
         adminUser.setFirstName("The");
         adminUser.setLastName("Admin");
 
-        identityManager.updateCredential(adminUser, new PlainTextPassword("admin".toCharArray()));
+        identityManager.updateCredential(adminUser, new Password("admin".toCharArray()));
 
         Role roleManager = new SimpleRole("Manager");
 
